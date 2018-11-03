@@ -1,0 +1,9 @@
+c:\users\qcuong98\documents\visual studio 2013\Projects\ComputerGraphics\Graphics2D\bin\Debug\Graphics2D.exe.config
+c:\users\qcuong98\documents\visual studio 2013\Projects\ComputerGraphics\Graphics2D\bin\Debug\Graphics2D.exe
+c:\users\qcuong98\documents\visual studio 2013\Projects\ComputerGraphics\Graphics2D\bin\Debug\Graphics2D.pdb
+c:\users\qcuong98\documents\visual studio 2013\Projects\ComputerGraphics\Graphics2D\obj\Debug\Graphics2D.csprojResolveAssemblyReference.cache
+c:\users\qcuong98\documents\visual studio 2013\Projects\ComputerGraphics\Graphics2D\obj\Debug\Graphics2D.MainForm.resources
+c:\users\qcuong98\documents\visual studio 2013\Projects\ComputerGraphics\Graphics2D\obj\Debug\Graphics2D.Properties.Resources.resources
+c:\users\qcuong98\documents\visual studio 2013\Projects\ComputerGraphics\Graphics2D\obj\Debug\Graphics2D.csproj.GenerateResource.Cache
+c:\users\qcuong98\documents\visual studio 2013\Projects\ComputerGraphics\Graphics2D\obj\Debug\Graphics2D.exe
+c:\users\qcuong98\documents\visual studio 2013\Projects\ComputerGraphics\Graphics2D\obj\Debug\Graphics2D.pdb
