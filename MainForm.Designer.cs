@@ -29,7 +29,25 @@
         private void InitializeComponent()
         {
             this.splitContainer = new System.Windows.Forms.SplitContainer();
+            this.groupBoxFile = new System.Windows.Forms.GroupBox();
+            this.buttonLoadFile = new System.Windows.Forms.Button();
+            this.buttonSaveFile = new System.Windows.Forms.Button();
+            this.groupBoxTypeOfBrush = new System.Windows.Forms.GroupBox();
+            this.pictureBoxBrushColor = new System.Windows.Forms.PictureBox();
+            this.radioButtonBrushColor = new System.Windows.Forms.RadioButton();
+            this.groupBoxPens = new System.Windows.Forms.GroupBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.textBoxWidth = new System.Windows.Forms.TextBox();
+            this.radioButtonNull = new System.Windows.Forms.RadioButton();
+            this.radioButtonDashDotDot = new System.Windows.Forms.RadioButton();
+            this.radioButtonDashDot = new System.Windows.Forms.RadioButton();
+            this.radioButtonDash = new System.Windows.Forms.RadioButton();
+            this.radioButtonDot = new System.Windows.Forms.RadioButton();
+            this.radioButtonSolid = new System.Windows.Forms.RadioButton();
+            this.groupBoxColor = new System.Windows.Forms.GroupBox();
+            this.pictureBoxPenColor = new System.Windows.Forms.PictureBox();
             this.groupBoxObject = new System.Windows.Forms.GroupBox();
+            this.radioButtonEllipse = new System.Windows.Forms.RadioButton();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.radioButtonDigits = new System.Windows.Forms.RadioButton();
             this.radioButtonRectangle = new System.Windows.Forms.RadioButton();
@@ -37,27 +55,21 @@
             this.radioButtonLine = new System.Windows.Forms.RadioButton();
             this.radioButtonSelect = new System.Windows.Forms.RadioButton();
             this.pictureBox = new System.Windows.Forms.PictureBox();
-            this.groupBoxColor = new System.Windows.Forms.GroupBox();
-            this.radioButtonRed = new System.Windows.Forms.RadioButton();
-            this.radioButtonGreen = new System.Windows.Forms.RadioButton();
-            this.radioButtonBlue = new System.Windows.Forms.RadioButton();
-            this.groupBoxStroke = new System.Windows.Forms.GroupBox();
-            this.radioButtonDash = new System.Windows.Forms.RadioButton();
-            this.radioButtonDot = new System.Windows.Forms.RadioButton();
-            this.radioButtonSolid = new System.Windows.Forms.RadioButton();
-            this.radioButtonNull = new System.Windows.Forms.RadioButton();
-            this.radioButtonDashDotDot = new System.Windows.Forms.RadioButton();
-            this.radioButtonDashDot = new System.Windows.Forms.RadioButton();
-            this.textBoxWidth = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
+            this.radioButtonBrushPattern1 = new System.Windows.Forms.RadioButton();
+            this.radioButtonBrushPattern2 = new System.Windows.Forms.RadioButton();
+            this.radioButtonBrushPattern3 = new System.Windows.Forms.RadioButton();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
             this.splitContainer.Panel1.SuspendLayout();
             this.splitContainer.Panel2.SuspendLayout();
             this.splitContainer.SuspendLayout();
+            this.groupBoxFile.SuspendLayout();
+            this.groupBoxTypeOfBrush.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxBrushColor)).BeginInit();
+            this.groupBoxPens.SuspendLayout();
+            this.groupBoxColor.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPenColor)).BeginInit();
             this.groupBoxObject.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
-            this.groupBoxColor.SuspendLayout();
-            this.groupBoxStroke.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer
@@ -69,7 +81,9 @@
             // 
             // splitContainer.Panel1
             // 
-            this.splitContainer.Panel1.Controls.Add(this.groupBoxStroke);
+            this.splitContainer.Panel1.Controls.Add(this.groupBoxFile);
+            this.splitContainer.Panel1.Controls.Add(this.groupBoxTypeOfBrush);
+            this.splitContainer.Panel1.Controls.Add(this.groupBoxPens);
             this.splitContainer.Panel1.Controls.Add(this.groupBoxColor);
             this.splitContainer.Panel1.Controls.Add(this.groupBoxObject);
             // 
@@ -80,8 +94,190 @@
             this.splitContainer.SplitterDistance = 329;
             this.splitContainer.TabIndex = 0;
             // 
+            // groupBoxFile
+            // 
+            this.groupBoxFile.Controls.Add(this.buttonLoadFile);
+            this.groupBoxFile.Controls.Add(this.buttonSaveFile);
+            this.groupBoxFile.Location = new System.Drawing.Point(160, 462);
+            this.groupBoxFile.Name = "groupBoxFile";
+            this.groupBoxFile.Size = new System.Drawing.Size(162, 80);
+            this.groupBoxFile.TabIndex = 4;
+            this.groupBoxFile.TabStop = false;
+            this.groupBoxFile.Text = "File";
+            // 
+            // buttonLoadFile
+            // 
+            this.buttonLoadFile.Location = new System.Drawing.Point(6, 48);
+            this.buttonLoadFile.Name = "buttonLoadFile";
+            this.buttonLoadFile.Size = new System.Drawing.Size(150, 23);
+            this.buttonLoadFile.TabIndex = 1;
+            this.buttonLoadFile.Text = "Load File ...";
+            this.buttonLoadFile.UseVisualStyleBackColor = true;
+            this.buttonLoadFile.Click += new System.EventHandler(this.buttonLoadFile_Click);
+            // 
+            // buttonSaveFile
+            // 
+            this.buttonSaveFile.Location = new System.Drawing.Point(6, 19);
+            this.buttonSaveFile.Name = "buttonSaveFile";
+            this.buttonSaveFile.Size = new System.Drawing.Size(150, 23);
+            this.buttonSaveFile.TabIndex = 0;
+            this.buttonSaveFile.Text = "Save File ...";
+            this.buttonSaveFile.UseVisualStyleBackColor = true;
+            this.buttonSaveFile.Click += new System.EventHandler(this.buttonSaveFile_Click);
+            // 
+            // groupBoxTypeOfBrush
+            // 
+            this.groupBoxTypeOfBrush.Controls.Add(this.radioButtonBrushPattern3);
+            this.groupBoxTypeOfBrush.Controls.Add(this.radioButtonBrushPattern2);
+            this.groupBoxTypeOfBrush.Controls.Add(this.radioButtonBrushPattern1);
+            this.groupBoxTypeOfBrush.Controls.Add(this.pictureBoxBrushColor);
+            this.groupBoxTypeOfBrush.Controls.Add(this.radioButtonBrushColor);
+            this.groupBoxTypeOfBrush.Location = new System.Drawing.Point(159, 233);
+            this.groupBoxTypeOfBrush.Name = "groupBoxTypeOfBrush";
+            this.groupBoxTypeOfBrush.Size = new System.Drawing.Size(163, 114);
+            this.groupBoxTypeOfBrush.TabIndex = 3;
+            this.groupBoxTypeOfBrush.TabStop = false;
+            this.groupBoxTypeOfBrush.Text = "Type of Brush";
+            // 
+            // pictureBoxBrushColor
+            // 
+            this.pictureBoxBrushColor.Location = new System.Drawing.Point(75, 19);
+            this.pictureBoxBrushColor.Name = "pictureBoxBrushColor";
+            this.pictureBoxBrushColor.Size = new System.Drawing.Size(82, 17);
+            this.pictureBoxBrushColor.TabIndex = 2;
+            this.pictureBoxBrushColor.TabStop = false;
+            this.pictureBoxBrushColor.Click += new System.EventHandler(this.pictureBoxBrushColor_Click);
+            // 
+            // radioButtonBrushColor
+            // 
+            this.radioButtonBrushColor.AutoSize = true;
+            this.radioButtonBrushColor.Checked = true;
+            this.radioButtonBrushColor.Location = new System.Drawing.Point(7, 19);
+            this.radioButtonBrushColor.Name = "radioButtonBrushColor";
+            this.radioButtonBrushColor.Size = new System.Drawing.Size(48, 17);
+            this.radioButtonBrushColor.TabIndex = 0;
+            this.radioButtonBrushColor.TabStop = true;
+            this.radioButtonBrushColor.Text = "Solid";
+            this.radioButtonBrushColor.UseVisualStyleBackColor = true;
+            // 
+            // groupBoxPens
+            // 
+            this.groupBoxPens.Controls.Add(this.label1);
+            this.groupBoxPens.Controls.Add(this.textBoxWidth);
+            this.groupBoxPens.Controls.Add(this.radioButtonNull);
+            this.groupBoxPens.Controls.Add(this.radioButtonDashDotDot);
+            this.groupBoxPens.Controls.Add(this.radioButtonDashDot);
+            this.groupBoxPens.Controls.Add(this.radioButtonDash);
+            this.groupBoxPens.Controls.Add(this.radioButtonDot);
+            this.groupBoxPens.Controls.Add(this.radioButtonSolid);
+            this.groupBoxPens.Location = new System.Drawing.Point(160, 63);
+            this.groupBoxPens.Name = "groupBoxPens";
+            this.groupBoxPens.Size = new System.Drawing.Size(162, 164);
+            this.groupBoxPens.TabIndex = 2;
+            this.groupBoxPens.TabStop = false;
+            this.groupBoxPens.Text = "Types of Pen";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(89, 21);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(35, 13);
+            this.label1.TabIndex = 9;
+            this.label1.Text = "Width";
+            // 
+            // textBoxWidth
+            // 
+            this.textBoxWidth.Location = new System.Drawing.Point(122, 18);
+            this.textBoxWidth.Name = "textBoxWidth";
+            this.textBoxWidth.Size = new System.Drawing.Size(34, 20);
+            this.textBoxWidth.TabIndex = 6;
+            this.textBoxWidth.Text = "1";
+            // 
+            // radioButtonNull
+            // 
+            this.radioButtonNull.AutoSize = true;
+            this.radioButtonNull.Location = new System.Drawing.Point(6, 134);
+            this.radioButtonNull.Name = "radioButtonNull";
+            this.radioButtonNull.Size = new System.Drawing.Size(73, 17);
+            this.radioButtonNull.TabIndex = 8;
+            this.radioButtonNull.Text = "PS_NULL";
+            this.radioButtonNull.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonDashDotDot
+            // 
+            this.radioButtonDashDotDot.AutoSize = true;
+            this.radioButtonDashDotDot.Location = new System.Drawing.Point(6, 111);
+            this.radioButtonDashDotDot.Name = "radioButtonDashDotDot";
+            this.radioButtonDashDotDot.Size = new System.Drawing.Size(121, 17);
+            this.radioButtonDashDotDot.TabIndex = 7;
+            this.radioButtonDashDotDot.Text = "PS_DASHDOTDOT";
+            this.radioButtonDashDotDot.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonDashDot
+            // 
+            this.radioButtonDashDot.AutoSize = true;
+            this.radioButtonDashDot.Location = new System.Drawing.Point(6, 88);
+            this.radioButtonDashDot.Name = "radioButtonDashDot";
+            this.radioButtonDashDot.Size = new System.Drawing.Size(98, 17);
+            this.radioButtonDashDot.TabIndex = 6;
+            this.radioButtonDashDot.Text = "PS_DASHDOT";
+            this.radioButtonDashDot.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonDash
+            // 
+            this.radioButtonDash.AutoSize = true;
+            this.radioButtonDash.Location = new System.Drawing.Point(6, 65);
+            this.radioButtonDash.Name = "radioButtonDash";
+            this.radioButtonDash.Size = new System.Drawing.Size(75, 17);
+            this.radioButtonDash.TabIndex = 5;
+            this.radioButtonDash.Text = "PS_DASH";
+            this.radioButtonDash.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonDot
+            // 
+            this.radioButtonDot.AutoSize = true;
+            this.radioButtonDot.Location = new System.Drawing.Point(6, 42);
+            this.radioButtonDot.Name = "radioButtonDot";
+            this.radioButtonDot.Size = new System.Drawing.Size(68, 17);
+            this.radioButtonDot.TabIndex = 4;
+            this.radioButtonDot.Text = "PS_DOT";
+            this.radioButtonDot.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonSolid
+            // 
+            this.radioButtonSolid.AutoSize = true;
+            this.radioButtonSolid.Checked = true;
+            this.radioButtonSolid.Location = new System.Drawing.Point(6, 19);
+            this.radioButtonSolid.Name = "radioButtonSolid";
+            this.radioButtonSolid.Size = new System.Drawing.Size(77, 17);
+            this.radioButtonSolid.TabIndex = 3;
+            this.radioButtonSolid.TabStop = true;
+            this.radioButtonSolid.Text = "PS_SOLID";
+            this.radioButtonSolid.UseVisualStyleBackColor = true;
+            // 
+            // groupBoxColor
+            // 
+            this.groupBoxColor.Controls.Add(this.pictureBoxPenColor);
+            this.groupBoxColor.Location = new System.Drawing.Point(159, 10);
+            this.groupBoxColor.Name = "groupBoxColor";
+            this.groupBoxColor.Size = new System.Drawing.Size(163, 47);
+            this.groupBoxColor.TabIndex = 1;
+            this.groupBoxColor.TabStop = false;
+            this.groupBoxColor.Text = "Pen Color";
+            // 
+            // pictureBoxPenColor
+            // 
+            this.pictureBoxPenColor.Location = new System.Drawing.Point(7, 19);
+            this.pictureBoxPenColor.Name = "pictureBoxPenColor";
+            this.pictureBoxPenColor.Size = new System.Drawing.Size(150, 17);
+            this.pictureBoxPenColor.TabIndex = 3;
+            this.pictureBoxPenColor.TabStop = false;
+            this.pictureBoxPenColor.Click += new System.EventHandler(this.pictureBoxPenColor_Click);
+            // 
             // groupBoxObject
             // 
+            this.groupBoxObject.Controls.Add(this.radioButtonEllipse);
             this.groupBoxObject.Controls.Add(this.textBox1);
             this.groupBoxObject.Controls.Add(this.radioButtonDigits);
             this.groupBoxObject.Controls.Add(this.radioButtonRectangle);
@@ -95,9 +291,19 @@
             this.groupBoxObject.TabStop = false;
             this.groupBoxObject.Text = "Object";
             // 
+            // radioButtonEllipse
+            // 
+            this.radioButtonEllipse.AutoSize = true;
+            this.radioButtonEllipse.Location = new System.Drawing.Point(6, 88);
+            this.radioButtonEllipse.Name = "radioButtonEllipse";
+            this.radioButtonEllipse.Size = new System.Drawing.Size(55, 17);
+            this.radioButtonEllipse.TabIndex = 6;
+            this.radioButtonEllipse.Text = "Ellipse";
+            this.radioButtonEllipse.UseVisualStyleBackColor = true;
+            // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(63, 109);
+            this.textBox1.Location = new System.Drawing.Point(63, 131);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(74, 20);
             this.textBox1.TabIndex = 5;
@@ -105,7 +311,7 @@
             // radioButtonDigits
             // 
             this.radioButtonDigits.AutoSize = true;
-            this.radioButtonDigits.Location = new System.Drawing.Point(6, 112);
+            this.radioButtonDigits.Location = new System.Drawing.Point(6, 134);
             this.radioButtonDigits.Name = "radioButtonDigits";
             this.radioButtonDigits.Size = new System.Drawing.Size(51, 17);
             this.radioButtonDigits.TabIndex = 4;
@@ -115,7 +321,7 @@
             // radioButtonRectangle
             // 
             this.radioButtonRectangle.AutoSize = true;
-            this.radioButtonRectangle.Location = new System.Drawing.Point(7, 89);
+            this.radioButtonRectangle.Location = new System.Drawing.Point(6, 111);
             this.radioButtonRectangle.Name = "radioButtonRectangle";
             this.radioButtonRectangle.Size = new System.Drawing.Size(74, 17);
             this.radioButtonRectangle.TabIndex = 3;
@@ -165,145 +371,35 @@
             this.pictureBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseMove);
             this.pictureBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseUp);
             // 
-            // groupBoxColor
+            // radioButtonBrushPattern1
             // 
-            this.groupBoxColor.Controls.Add(this.radioButtonBlue);
-            this.groupBoxColor.Controls.Add(this.radioButtonGreen);
-            this.groupBoxColor.Controls.Add(this.radioButtonRed);
-            this.groupBoxColor.Location = new System.Drawing.Point(159, 10);
-            this.groupBoxColor.Name = "groupBoxColor";
-            this.groupBoxColor.Size = new System.Drawing.Size(163, 93);
-            this.groupBoxColor.TabIndex = 1;
-            this.groupBoxColor.TabStop = false;
-            this.groupBoxColor.Text = "Color";
+            this.radioButtonBrushPattern1.AutoSize = true;
+            this.radioButtonBrushPattern1.Location = new System.Drawing.Point(7, 42);
+            this.radioButtonBrushPattern1.Name = "radioButtonBrushPattern1";
+            this.radioButtonBrushPattern1.Size = new System.Drawing.Size(68, 17);
+            this.radioButtonBrushPattern1.TabIndex = 3;
+            this.radioButtonBrushPattern1.Text = "Pattern 1";
+            this.radioButtonBrushPattern1.UseVisualStyleBackColor = true;
             // 
-            // radioButtonRed
+            // radioButtonBrushPattern2
             // 
-            this.radioButtonRed.AutoSize = true;
-            this.radioButtonRed.Checked = true;
-            this.radioButtonRed.Location = new System.Drawing.Point(6, 19);
-            this.radioButtonRed.Name = "radioButtonRed";
-            this.radioButtonRed.Size = new System.Drawing.Size(45, 17);
-            this.radioButtonRed.TabIndex = 0;
-            this.radioButtonRed.TabStop = true;
-            this.radioButtonRed.Text = "Red";
-            this.radioButtonRed.UseVisualStyleBackColor = true;
+            this.radioButtonBrushPattern2.AutoSize = true;
+            this.radioButtonBrushPattern2.Location = new System.Drawing.Point(7, 65);
+            this.radioButtonBrushPattern2.Name = "radioButtonBrushPattern2";
+            this.radioButtonBrushPattern2.Size = new System.Drawing.Size(68, 17);
+            this.radioButtonBrushPattern2.TabIndex = 4;
+            this.radioButtonBrushPattern2.Text = "Pattern 2";
+            this.radioButtonBrushPattern2.UseVisualStyleBackColor = true;
             // 
-            // radioButtonGreen
+            // radioButtonBrushPattern3
             // 
-            this.radioButtonGreen.AutoSize = true;
-            this.radioButtonGreen.Location = new System.Drawing.Point(6, 42);
-            this.radioButtonGreen.Name = "radioButtonGreen";
-            this.radioButtonGreen.Size = new System.Drawing.Size(54, 17);
-            this.radioButtonGreen.TabIndex = 1;
-            this.radioButtonGreen.Text = "Green";
-            this.radioButtonGreen.UseVisualStyleBackColor = true;
-            // 
-            // radioButtonBlue
-            // 
-            this.radioButtonBlue.AutoSize = true;
-            this.radioButtonBlue.Location = new System.Drawing.Point(6, 65);
-            this.radioButtonBlue.Name = "radioButtonBlue";
-            this.radioButtonBlue.Size = new System.Drawing.Size(46, 17);
-            this.radioButtonBlue.TabIndex = 2;
-            this.radioButtonBlue.Text = "Blue";
-            this.radioButtonBlue.UseVisualStyleBackColor = true;
-            // 
-            // groupBoxStroke
-            // 
-            this.groupBoxStroke.Controls.Add(this.label1);
-            this.groupBoxStroke.Controls.Add(this.textBoxWidth);
-            this.groupBoxStroke.Controls.Add(this.radioButtonNull);
-            this.groupBoxStroke.Controls.Add(this.radioButtonDashDotDot);
-            this.groupBoxStroke.Controls.Add(this.radioButtonDashDot);
-            this.groupBoxStroke.Controls.Add(this.radioButtonDash);
-            this.groupBoxStroke.Controls.Add(this.radioButtonDot);
-            this.groupBoxStroke.Controls.Add(this.radioButtonSolid);
-            this.groupBoxStroke.Location = new System.Drawing.Point(160, 110);
-            this.groupBoxStroke.Name = "groupBoxStroke";
-            this.groupBoxStroke.Size = new System.Drawing.Size(162, 164);
-            this.groupBoxStroke.TabIndex = 2;
-            this.groupBoxStroke.TabStop = false;
-            this.groupBoxStroke.Text = "Stroke";
-            // 
-            // radioButtonDash
-            // 
-            this.radioButtonDash.AutoSize = true;
-            this.radioButtonDash.Location = new System.Drawing.Point(6, 65);
-            this.radioButtonDash.Name = "radioButtonDash";
-            this.radioButtonDash.Size = new System.Drawing.Size(75, 17);
-            this.radioButtonDash.TabIndex = 5;
-            this.radioButtonDash.Text = "PS_DASH";
-            this.radioButtonDash.UseVisualStyleBackColor = true;
-            // 
-            // radioButtonDot
-            // 
-            this.radioButtonDot.AutoSize = true;
-            this.radioButtonDot.Location = new System.Drawing.Point(6, 42);
-            this.radioButtonDot.Name = "radioButtonDot";
-            this.radioButtonDot.Size = new System.Drawing.Size(68, 17);
-            this.radioButtonDot.TabIndex = 4;
-            this.radioButtonDot.Text = "PS_DOT";
-            this.radioButtonDot.UseVisualStyleBackColor = true;
-            // 
-            // radioButtonSolid
-            // 
-            this.radioButtonSolid.AutoSize = true;
-            this.radioButtonSolid.Checked = true;
-            this.radioButtonSolid.Location = new System.Drawing.Point(6, 19);
-            this.radioButtonSolid.Name = "radioButtonSolid";
-            this.radioButtonSolid.Size = new System.Drawing.Size(77, 17);
-            this.radioButtonSolid.TabIndex = 3;
-            this.radioButtonSolid.TabStop = true;
-            this.radioButtonSolid.Text = "PS_SOLID";
-            this.radioButtonSolid.UseVisualStyleBackColor = true;
-            // 
-            // radioButtonNull
-            // 
-            this.radioButtonNull.AutoSize = true;
-            this.radioButtonNull.Location = new System.Drawing.Point(6, 134);
-            this.radioButtonNull.Name = "radioButtonNull";
-            this.radioButtonNull.Size = new System.Drawing.Size(73, 17);
-            this.radioButtonNull.TabIndex = 8;
-            this.radioButtonNull.Text = "PS_NULL";
-            this.radioButtonNull.UseVisualStyleBackColor = true;
-            // 
-            // radioButtonDashDotDot
-            // 
-            this.radioButtonDashDotDot.AutoSize = true;
-            this.radioButtonDashDotDot.Location = new System.Drawing.Point(6, 111);
-            this.radioButtonDashDotDot.Name = "radioButtonDashDotDot";
-            this.radioButtonDashDotDot.Size = new System.Drawing.Size(121, 17);
-            this.radioButtonDashDotDot.TabIndex = 7;
-            this.radioButtonDashDotDot.Text = "PS_DASHDOTDOT";
-            this.radioButtonDashDotDot.UseVisualStyleBackColor = true;
-            // 
-            // radioButtonDashDot
-            // 
-            this.radioButtonDashDot.AutoSize = true;
-            this.radioButtonDashDot.Location = new System.Drawing.Point(6, 88);
-            this.radioButtonDashDot.Name = "radioButtonDashDot";
-            this.radioButtonDashDot.Size = new System.Drawing.Size(98, 17);
-            this.radioButtonDashDot.TabIndex = 6;
-            this.radioButtonDashDot.Text = "PS_DASHDOT";
-            this.radioButtonDashDot.UseVisualStyleBackColor = true;
-            // 
-            // textBoxWidth
-            // 
-            this.textBoxWidth.Location = new System.Drawing.Point(122, 18);
-            this.textBoxWidth.Name = "textBoxWidth";
-            this.textBoxWidth.Size = new System.Drawing.Size(34, 20);
-            this.textBoxWidth.TabIndex = 6;
-            this.textBoxWidth.Text = "1";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(89, 21);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(35, 13);
-            this.label1.TabIndex = 9;
-            this.label1.Text = "Width";
+            this.radioButtonBrushPattern3.AutoSize = true;
+            this.radioButtonBrushPattern3.Location = new System.Drawing.Point(7, 88);
+            this.radioButtonBrushPattern3.Name = "radioButtonBrushPattern3";
+            this.radioButtonBrushPattern3.Size = new System.Drawing.Size(68, 17);
+            this.radioButtonBrushPattern3.TabIndex = 5;
+            this.radioButtonBrushPattern3.Text = "Pattern 3";
+            this.radioButtonBrushPattern3.UseVisualStyleBackColor = true;
             // 
             // MainForm
             // 
@@ -318,13 +414,17 @@
             this.splitContainer.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).EndInit();
             this.splitContainer.ResumeLayout(false);
+            this.groupBoxFile.ResumeLayout(false);
+            this.groupBoxTypeOfBrush.ResumeLayout(false);
+            this.groupBoxTypeOfBrush.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxBrushColor)).EndInit();
+            this.groupBoxPens.ResumeLayout(false);
+            this.groupBoxPens.PerformLayout();
+            this.groupBoxColor.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPenColor)).EndInit();
             this.groupBoxObject.ResumeLayout(false);
             this.groupBoxObject.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).EndInit();
-            this.groupBoxColor.ResumeLayout(false);
-            this.groupBoxColor.PerformLayout();
-            this.groupBoxStroke.ResumeLayout(false);
-            this.groupBoxStroke.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -341,10 +441,7 @@
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.RadioButton radioButtonDigits;
         private System.Windows.Forms.GroupBox groupBoxColor;
-        private System.Windows.Forms.RadioButton radioButtonBlue;
-        private System.Windows.Forms.RadioButton radioButtonGreen;
-        private System.Windows.Forms.RadioButton radioButtonRed;
-        private System.Windows.Forms.GroupBox groupBoxStroke;
+        private System.Windows.Forms.GroupBox groupBoxPens;
         private System.Windows.Forms.RadioButton radioButtonNull;
         private System.Windows.Forms.RadioButton radioButtonDashDotDot;
         private System.Windows.Forms.RadioButton radioButtonDashDot;
@@ -353,6 +450,17 @@
         private System.Windows.Forms.RadioButton radioButtonSolid;
         private System.Windows.Forms.TextBox textBoxWidth;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.GroupBox groupBoxTypeOfBrush;
+        private System.Windows.Forms.GroupBox groupBoxFile;
+        private System.Windows.Forms.Button buttonSaveFile;
+        private System.Windows.Forms.Button buttonLoadFile;
+        private System.Windows.Forms.RadioButton radioButtonEllipse;
+        private System.Windows.Forms.RadioButton radioButtonBrushColor;
+        private System.Windows.Forms.PictureBox pictureBoxBrushColor;
+        private System.Windows.Forms.PictureBox pictureBoxPenColor;
+        private System.Windows.Forms.RadioButton radioButtonBrushPattern1;
+        private System.Windows.Forms.RadioButton radioButtonBrushPattern3;
+        private System.Windows.Forms.RadioButton radioButtonBrushPattern2;
     }
 }
 

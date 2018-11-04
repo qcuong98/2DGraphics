@@ -13,36 +13,34 @@ namespace Graphics2D
 {
     public partial class MainForm : Form
     {
-        private const int MAX_LAYER = 100;
+        private const int MAX_LAYER = 1000;
         private const int SELECT = 0;
         private const int LINE = 1;
-        private const int CIRCLE = 2;
-        private const int RECTANGLE = 3;
+        private const int ELLIPSE = 2;
+        private const int CIRCLE = 3;
+        private const int RECTANGLE = 4;
 
         private GraphicsPath[] myGraphicsPaths;
         private Pen[] myPens;
+        private Brush[] myBrushes;
         int nGraphicsPath;
+
         int x0, y0, x1, y1;
         bool MouseDowned;
 
         public MainForm()
         {
             InitializeComponent();
-
-            /* white background */
-            int wid = pictureBox.ClientSize.Width;
-            int hgt = pictureBox.ClientSize.Height;
-            Bitmap bm = new Bitmap(wid, hgt);
-            using (Graphics gr = Graphics.FromImage(bm))
-            {
-                gr.Clear(Color.White);
-            }
-            pictureBox.Image = bm;
-            pictureBox.Refresh();
             
             nGraphicsPath = 0;
             myGraphicsPaths = new GraphicsPath[MAX_LAYER];
             myPens = new Pen[MAX_LAYER];
+            myBrushes = new Brush[MAX_LAYER];
+
+            /* init background of PictureBoxes*/
+            pictureBoxBrushColor.BackColor = Color.White;
+            pictureBoxPenColor.BackColor = Color.Red;
+            pictureBox.BackColor = Color.White;
         }
 
         private int GetObject()
@@ -51,48 +49,45 @@ namespace Graphics2D
                 return LINE;
             if (radioButtonCircle.Checked)
                 return CIRCLE;
+            if (radioButtonEllipse.Checked)
+                return ELLIPSE;
             if (radioButtonRectangle.Checked)
                 return RECTANGLE;
             return SELECT;
         }
 
-        private int CheckValidInt(string p)
+        private float CheckValidFloat(string p)
         {
-            int i = -1;
+            float i = -1;
             try
             {
-                i = System.Convert.ToInt32(p);
+                i = (float)System.Convert.ToDouble(p);
             }
-            catch (FormatException)
+            catch (Exception)
             {
+                MessageBox.Show("Width is invalid! Set width = 1.");
+                textBoxWidth.Text = "1";
                 return -1;
             }
-            catch (OverflowException)
+            if (i <= 0)
             {
+                MessageBox.Show("Width have to be greater than 0! Set width = 1.");
+                textBoxWidth.Text = "1";
                 return -1;
             }
-            if (i < 1)
-                return -1;
             return i;
         }
 
         private Pen GetPen()
         {
-            Pen myPen = new Pen(Color.Red);
-
-            if (radioButtonRed.Checked)
-                myPen.Color = Color.Red;
-            else if (radioButtonGreen.Checked)
-                myPen.Color = Color.Green;
-            else if (radioButtonBlue.Checked)
-                myPen.Color = Color.Blue;
+            Pen myPen = new Pen(pictureBoxPenColor.BackColor);
 
             if (radioButtonSolid.Checked)
             {
-                int wid = CheckValidInt(textBoxWidth.Text);
-                if (wid != -1)
-                    myPen.Width = wid;
-            } else if (radioButtonDot.Checked)
+                float wid = CheckValidFloat(textBoxWidth.Text);
+                myPen.Width = (wid == -1 ? 1 : wid);
+            }
+            else if (radioButtonDot.Checked)
                 myPen.DashPattern = new float[] { 1F, 5F };
             else if (radioButtonDash.Checked)
                 myPen.DashPattern = new float[] { 10F, 5F };
@@ -100,8 +95,30 @@ namespace Graphics2D
                 myPen.DashPattern = new float[] { 10F, 5F, 1F, 5F };
             else if (radioButtonDashDotDot.Checked)
                 myPen.DashPattern = new float[] { 10F, 5F, 1F, 5F, 1F, 5F };
+            else if (radioButtonNull.Checked)
+                myPen.Color = Color.Transparent;
 
             return myPen;
+        }
+
+        private Brush GetBrush()
+        {
+            if (radioButtonBrushColor.Checked)
+            {
+                SolidBrush mySolidBrush = new SolidBrush(pictureBoxBrushColor.BackColor);
+                return mySolidBrush;
+            }
+
+            string dir = "";
+            if (radioButtonBrushPattern1.Checked)
+                dir = @"C:\Users\qcuong98\Documents\Visual Studio 2013\Projects\ComputerGraphics\Graphics2D\pattern_1.bmp";
+            else if (radioButtonBrushPattern2.Checked)
+                dir = @"C:\Users\qcuong98\Documents\Visual Studio 2013\Projects\ComputerGraphics\Graphics2D\pattern_2.bmp";
+            else if (radioButtonBrushPattern3.Checked)
+                dir = @"C:\Users\qcuong98\Documents\Visual Studio 2013\Projects\ComputerGraphics\Graphics2D\pattern_3.bmp";
+            Bitmap myImage = (Bitmap)Image.FromFile(dir);
+            TextureBrush myTextureBrush = new TextureBrush(myImage);
+            return myTextureBrush;
         }
 
         private void pictureBox_MouseDown(object sender, MouseEventArgs e)
@@ -117,17 +134,9 @@ namespace Graphics2D
             {
                 x1 = e.X;
                 y1 = e.Y;
-                if (GetObject() == LINE)
-                    AddLine(new Point(x0, y0), new Point(x1, y1));
-                else if (GetObject() == CIRCLE)
-                    AddCircle(new Point(x0, y0), (float)Math.Sqrt((x1 - x0) * (x1 - x0) + (y1 - y0) * (y1 - y0)));
-                else if (GetObject() == RECTANGLE)
-                    AddRectangle(new Point(x0, y0), new Point(x1, y1));
+                Render();
                 if (GetObject() != SELECT)
-                {
-                    RefreshGraphics();
                     --nGraphicsPath;
-                }
             }
         }
 
@@ -135,40 +144,40 @@ namespace Graphics2D
         {
             x1 = e.X;
             y1 = e.Y;
-            if (GetObject() == LINE)
-                AddLine(new Point(x0, y0), new Point(x1, y1));
-            else if (GetObject() == CIRCLE)
-                AddCircle(new Point(x0, y0), (float)Math.Sqrt((x1 - x0) * (x1 - x0) + (y1 - y0) * (y1 - y0)));
-            else if (GetObject() == RECTANGLE)
-                AddRectangle(new Point(x0, y0), new Point(x1, y1));
-            RefreshGraphics();
+            Render();
             MouseDowned = false;
         }
 
-        private void AddLine(Point a, Point b) {
-            myGraphicsPaths[nGraphicsPath] = new GraphicsPath();
-            myGraphicsPaths[nGraphicsPath].AddLine(a, b);
-            myPens[nGraphicsPath] = GetPen();
-            ++nGraphicsPath;
+        private void Render()
+        {
+            if (GetObject() == LINE)
+                AddGraphicsPath(new Line(new PointF(x0, y0), new PointF(x1, y1)));
+            else if (GetObject() == CIRCLE) {
+                float r = (float)Math.Sqrt((x1 - x0) * (x1 - x0) + (y1 - y0) * (y1 - y0));
+                AddGraphicsPath(new Ellipse(new PointF(x0 - r, y0 - r), 2 * r, 2 * r));
+            }
+            else if (GetObject() == ELLIPSE)
+            {
+                PointF a = new PointF(Math.Min(x0, x1), Math.Min(y0, y1));
+                int wid = Math.Abs(x1 - x0), hgt = Math.Abs(y1 - y0);
+                AddGraphicsPath(new Ellipse(a, wid, hgt));
+            }
+            else if (GetObject() == RECTANGLE)
+            {
+                PointF a = new PointF(Math.Min(x0, x1), Math.Min(y0, y1));
+                PointF b = new PointF(Math.Max(x0, x1), Math.Max(y0, y1));
+                AddGraphicsPath(new Rectangle(a, b));
+            }
+            if (GetObject() != SELECT)
+                RefreshGraphics();
         }
 
-        private void AddCircle(Point a, float r)
+        private void AddGraphicsPath(Shape myShape)
         {
             myGraphicsPaths[nGraphicsPath] = new GraphicsPath();
-            RectangleF circleRect = new RectangleF(a.X - r, a.Y - r, r * 2, r * 2);
-            myGraphicsPaths[nGraphicsPath].AddEllipse(circleRect);
+            myShape.AddTo(myGraphicsPaths[nGraphicsPath]);
             myPens[nGraphicsPath] = GetPen();
-            ++nGraphicsPath;
-        }
-
-        private void AddRectangle(Point a, Point b)
-        {
-            
-            myGraphicsPaths[nGraphicsPath] = new GraphicsPath();
-            Point p1 = new Point(Math.Min(a.X, b.X), Math.Min(a.Y, b.Y));
-            RectangleF myRectangle = new RectangleF(p1.X, p1.Y, Math.Abs(a.X - b.X), Math.Abs(a.Y - b.Y));
-            myGraphicsPaths[nGraphicsPath].AddRectangle(myRectangle);
-            myPens[nGraphicsPath] = GetPen();
+            myBrushes[nGraphicsPath] = GetBrush();
             ++nGraphicsPath;
         }
 
@@ -181,10 +190,68 @@ namespace Graphics2D
             {
                 gr.Clear(Color.White);
                 for (int i = 0; i < nGraphicsPath; ++i)
+                {
+                    gr.FillPath(myBrushes[i], myGraphicsPaths[i]);
                     gr.DrawPath(myPens[i], myGraphicsPaths[i]);
+                }
             }
             pictureBox.Image = bm;
             pictureBox.Refresh();
         }
+
+        private void buttonSaveFile_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog mySaveFileDialog = new SaveFileDialog();
+            mySaveFileDialog.Title = "Save File of Objects";    
+            mySaveFileDialog.CheckPathExists = true;  
+            mySaveFileDialog.DefaultExt = "shp";  
+            mySaveFileDialog.Filter = "Shape files (*.shp)|*.shp|All files (*.*)|*.*";  
+            mySaveFileDialog.FilterIndex = 1;  
+            mySaveFileDialog.RestoreDirectory = true;
+            if (mySaveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                string fOutput = mySaveFileDialog.FileName;
+            }
+        }
+
+        private void buttonLoadFile_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog myOpenFileDialog = new OpenFileDialog();
+            myOpenFileDialog.Title = "Load File of Objects";
+            myOpenFileDialog.CheckFileExists = true;
+            myOpenFileDialog.CheckPathExists = true;
+            myOpenFileDialog.DefaultExt = "shp";
+            myOpenFileDialog.Filter = "Shape files (*.shp)|*.shp|All files (*.*)|*.*";
+            myOpenFileDialog.FilterIndex = 1;
+            myOpenFileDialog.RestoreDirectory = true;
+            if (myOpenFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                string fInput = myOpenFileDialog.FileName;
+            }
+        }
+
+        private void pictureBoxBrushColor_Click(object sender, EventArgs e)
+        {
+            ColorDialog myColorDialog = new ColorDialog();
+            myColorDialog.AllowFullOpen = false;  
+            myColorDialog.AnyColor = true;  
+            myColorDialog.SolidColorOnly = false;  
+            myColorDialog.Color = Color.Red;
+
+            if (myColorDialog.ShowDialog() == DialogResult.OK)
+                pictureBoxBrushColor.BackColor = myColorDialog.Color;
+        }
+
+        private void pictureBoxPenColor_Click(object sender, EventArgs e)
+        {
+            ColorDialog myColorDialog = new ColorDialog();
+            myColorDialog.AllowFullOpen = false;
+            myColorDialog.AnyColor = true;
+            myColorDialog.SolidColorOnly = false;
+            myColorDialog.Color = Color.Red;
+
+            if (myColorDialog.ShowDialog() == DialogResult.OK)
+                pictureBoxPenColor.BackColor = myColorDialog.Color;
+        }  
     }
 }
