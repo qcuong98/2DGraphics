@@ -14,18 +14,22 @@ namespace Graphics2D
     public partial class MainForm : Form
     {
         private const int MAX_LAYER = 1000;
+
         private const int SELECT = 0;
         private const int LINE = 1;
-        private const int ELLIPSE = 2;
-        private const int CIRCLE = 3;
+        private const int CIRCLE = 2;
+        private const int ELLIPSE = 3;
         private const int RECTANGLE = 4;
+        private const int BEZIER = 5;
 
+        int nGraphicsPath;
         private GraphicsPath[] myGraphicsPaths;
         private Pen[] myPens;
         private Brush[] myBrushes;
-        int nGraphicsPath;
 
-        int x0, y0, x1, y1;
+        int nPoint;
+        private Point[] Points;
+
         bool MouseDowned;
 
         public MainForm()
@@ -37,10 +41,20 @@ namespace Graphics2D
             myPens = new Pen[MAX_LAYER];
             myBrushes = new Brush[MAX_LAYER];
 
+            nPoint = 0;
+            Points = new Point[100];
+
             /* init background of PictureBoxes*/
-            pictureBoxBrushColor.BackColor = Color.White;
+            pictureBoxBrushColor.BackColor = Color.Navy;
             pictureBoxPenColor.BackColor = Color.Red;
             pictureBox.BackColor = Color.White;
+
+            //myGraphicsPaths[0] = new GraphicsPath();
+            //myGraphicsPaths[0].AddBezier(new PointF(100, 100), new PointF(200, 200), new PointF(300, 100), new PointF(100, 400));
+            //myBrushes[0] = new SolidBrush(Color.Black);
+            //myPens[0] = new Pen(Brushes.Red);
+            //nGraphicsPath = 1;
+            //RefreshGraphics();
         }
 
         private int GetObject()
@@ -53,7 +67,24 @@ namespace Graphics2D
                 return ELLIPSE;
             if (radioButtonRectangle.Checked)
                 return RECTANGLE;
+            if (radioButtonBezier.Checked)
+                return BEZIER;
             return SELECT;
+        }
+
+        private int NoOfControlPoints(int Shape)
+        {
+            switch (Shape)
+            {
+                case LINE:
+                case CIRCLE:
+                case ELLIPSE:
+                case RECTANGLE:
+                    return 2;
+                case BEZIER:
+                    return 4;
+            }
+            return 0;
         }
 
         private float CheckValidFloat(string p)
@@ -103,6 +134,11 @@ namespace Graphics2D
 
         private Brush GetBrush()
         {
+            if (radioButtonBrushTransparent.Checked)
+            {
+                SolidBrush mySolidBrush = new SolidBrush(Color.Transparent);
+                return mySolidBrush;
+            }
             if (radioButtonBrushColor.Checked)
             {
                 SolidBrush mySolidBrush = new SolidBrush(pictureBoxBrushColor.BackColor);
@@ -123,17 +159,29 @@ namespace Graphics2D
 
         private void pictureBox_MouseDown(object sender, MouseEventArgs e)
         {
-            x0 = e.X;
-            y0 = e.Y;
+            if (NoOfControlPoints(GetObject()) == 2)
+            {
+                Points[0] = new Point(e.X, e.Y);
+            }
+            else
+            {
+                Points[nPoint] = new Point(e.X, e.Y);
+                ++nPoint;
+                if (nPoint == NoOfControlPoints(GetObject()))
+                {
+                    Render();
+                    nPoint = 0;
+                }
+            }
+
             MouseDowned = true;
         }
 
         private void pictureBox_MouseMove(object sender, MouseEventArgs e)
         {
-            if (MouseDowned)
+            if (MouseDowned && NoOfControlPoints(GetObject()) == 2)
             {
-                x1 = e.X;
-                y1 = e.Y;
+                Points[1] = new Point(e.X, e.Y);
                 Render();
                 if (GetObject() != SELECT)
                     --nGraphicsPath;
@@ -142,31 +190,41 @@ namespace Graphics2D
 
         private void pictureBox_MouseUp(object sender, MouseEventArgs e)
         {
-            x1 = e.X;
-            y1 = e.Y;
-            Render();
+            if (NoOfControlPoints(GetObject()) == 2)
+            {
+                Points[1] = new Point(e.X, e.Y);
+                Render();
+            }
             MouseDowned = false;
+        }
+
+        private static float sqr(float x) {
+            return x * x;
         }
 
         private void Render()
         {
             if (GetObject() == LINE)
-                AddGraphicsPath(new Line(new PointF(x0, y0), new PointF(x1, y1)));
+                AddGraphicsPath(new Line(Points[0], Points[1]));
             else if (GetObject() == CIRCLE) {
-                float r = (float)Math.Sqrt((x1 - x0) * (x1 - x0) + (y1 - y0) * (y1 - y0));
-                AddGraphicsPath(new Ellipse(new PointF(x0 - r, y0 - r), 2 * r, 2 * r));
+                float r = (float)Math.Sqrt(sqr(Points[1].X - Points[0].X) + sqr(Points[1].Y - Points[0].Y));
+                AddGraphicsPath(new Ellipse(new PointF(Points[0].X - r, Points[0].Y - r), 2 * r, 2 * r));
             }
             else if (GetObject() == ELLIPSE)
             {
-                PointF a = new PointF(Math.Min(x0, x1), Math.Min(y0, y1));
-                int wid = Math.Abs(x1 - x0), hgt = Math.Abs(y1 - y0);
+                PointF a = new PointF(Math.Min(Points[0].X, Points[1].X), Math.Min(Points[0].Y, Points[1].Y));
+                int wid = Math.Abs(Points[1].X - Points[0].X), hgt = Math.Abs(Points[1].Y - Points[0].Y);
                 AddGraphicsPath(new Ellipse(a, wid, hgt));
             }
             else if (GetObject() == RECTANGLE)
             {
-                PointF a = new PointF(Math.Min(x0, x1), Math.Min(y0, y1));
-                PointF b = new PointF(Math.Max(x0, x1), Math.Max(y0, y1));
+                PointF a = new PointF(Math.Min(Points[0].X, Points[1].X), Math.Min(Points[0].Y, Points[1].Y));
+                PointF b = new PointF(Math.Max(Points[0].X, Points[1].X), Math.Max(Points[0].Y, Points[1].Y));
                 AddGraphicsPath(new Rectangle(a, b));
+            }
+            else if (GetObject() == BEZIER)
+            {
+                AddGraphicsPath(new Bezier(Points[0], Points[1], Points[2], Points[3]));
             }
             if (GetObject() != SELECT)
                 RefreshGraphics();

@@ -33,6 +33,10 @@
             this.buttonLoadFile = new System.Windows.Forms.Button();
             this.buttonSaveFile = new System.Windows.Forms.Button();
             this.groupBoxTypeOfBrush = new System.Windows.Forms.GroupBox();
+            this.radioButtonBrushTransparent = new System.Windows.Forms.RadioButton();
+            this.radioButtonBrushPattern3 = new System.Windows.Forms.RadioButton();
+            this.radioButtonBrushPattern2 = new System.Windows.Forms.RadioButton();
+            this.radioButtonBrushPattern1 = new System.Windows.Forms.RadioButton();
             this.pictureBoxBrushColor = new System.Windows.Forms.PictureBox();
             this.radioButtonBrushColor = new System.Windows.Forms.RadioButton();
             this.groupBoxPens = new System.Windows.Forms.GroupBox();
@@ -55,9 +59,7 @@
             this.radioButtonLine = new System.Windows.Forms.RadioButton();
             this.radioButtonSelect = new System.Windows.Forms.RadioButton();
             this.pictureBox = new System.Windows.Forms.PictureBox();
-            this.radioButtonBrushPattern1 = new System.Windows.Forms.RadioButton();
-            this.radioButtonBrushPattern2 = new System.Windows.Forms.RadioButton();
-            this.radioButtonBrushPattern3 = new System.Windows.Forms.RadioButton();
+            this.radioButtonBezier = new System.Windows.Forms.RadioButton();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
             this.splitContainer.Panel1.SuspendLayout();
             this.splitContainer.Panel2.SuspendLayout();
@@ -127,6 +129,7 @@
             // 
             // groupBoxTypeOfBrush
             // 
+            this.groupBoxTypeOfBrush.Controls.Add(this.radioButtonBrushTransparent);
             this.groupBoxTypeOfBrush.Controls.Add(this.radioButtonBrushPattern3);
             this.groupBoxTypeOfBrush.Controls.Add(this.radioButtonBrushPattern2);
             this.groupBoxTypeOfBrush.Controls.Add(this.radioButtonBrushPattern1);
@@ -134,14 +137,56 @@
             this.groupBoxTypeOfBrush.Controls.Add(this.radioButtonBrushColor);
             this.groupBoxTypeOfBrush.Location = new System.Drawing.Point(159, 233);
             this.groupBoxTypeOfBrush.Name = "groupBoxTypeOfBrush";
-            this.groupBoxTypeOfBrush.Size = new System.Drawing.Size(163, 114);
+            this.groupBoxTypeOfBrush.Size = new System.Drawing.Size(163, 140);
             this.groupBoxTypeOfBrush.TabIndex = 3;
             this.groupBoxTypeOfBrush.TabStop = false;
             this.groupBoxTypeOfBrush.Text = "Type of Brush";
             // 
+            // radioButtonBrushTransparent
+            // 
+            this.radioButtonBrushTransparent.AutoSize = true;
+            this.radioButtonBrushTransparent.Checked = true;
+            this.radioButtonBrushTransparent.Location = new System.Drawing.Point(7, 20);
+            this.radioButtonBrushTransparent.Name = "radioButtonBrushTransparent";
+            this.radioButtonBrushTransparent.Size = new System.Drawing.Size(82, 17);
+            this.radioButtonBrushTransparent.TabIndex = 6;
+            this.radioButtonBrushTransparent.TabStop = true;
+            this.radioButtonBrushTransparent.Text = "Transparent";
+            this.radioButtonBrushTransparent.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonBrushPattern3
+            // 
+            this.radioButtonBrushPattern3.AutoSize = true;
+            this.radioButtonBrushPattern3.Location = new System.Drawing.Point(7, 112);
+            this.radioButtonBrushPattern3.Name = "radioButtonBrushPattern3";
+            this.radioButtonBrushPattern3.Size = new System.Drawing.Size(68, 17);
+            this.radioButtonBrushPattern3.TabIndex = 5;
+            this.radioButtonBrushPattern3.Text = "Pattern 3";
+            this.radioButtonBrushPattern3.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonBrushPattern2
+            // 
+            this.radioButtonBrushPattern2.AutoSize = true;
+            this.radioButtonBrushPattern2.Location = new System.Drawing.Point(7, 89);
+            this.radioButtonBrushPattern2.Name = "radioButtonBrushPattern2";
+            this.radioButtonBrushPattern2.Size = new System.Drawing.Size(68, 17);
+            this.radioButtonBrushPattern2.TabIndex = 4;
+            this.radioButtonBrushPattern2.Text = "Pattern 2";
+            this.radioButtonBrushPattern2.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonBrushPattern1
+            // 
+            this.radioButtonBrushPattern1.AutoSize = true;
+            this.radioButtonBrushPattern1.Location = new System.Drawing.Point(7, 66);
+            this.radioButtonBrushPattern1.Name = "radioButtonBrushPattern1";
+            this.radioButtonBrushPattern1.Size = new System.Drawing.Size(68, 17);
+            this.radioButtonBrushPattern1.TabIndex = 3;
+            this.radioButtonBrushPattern1.Text = "Pattern 1";
+            this.radioButtonBrushPattern1.UseVisualStyleBackColor = true;
+            // 
             // pictureBoxBrushColor
             // 
-            this.pictureBoxBrushColor.Location = new System.Drawing.Point(75, 19);
+            this.pictureBoxBrushColor.Location = new System.Drawing.Point(75, 43);
             this.pictureBoxBrushColor.Name = "pictureBoxBrushColor";
             this.pictureBoxBrushColor.Size = new System.Drawing.Size(82, 17);
             this.pictureBoxBrushColor.TabIndex = 2;
@@ -151,12 +196,10 @@
             // radioButtonBrushColor
             // 
             this.radioButtonBrushColor.AutoSize = true;
-            this.radioButtonBrushColor.Checked = true;
-            this.radioButtonBrushColor.Location = new System.Drawing.Point(7, 19);
+            this.radioButtonBrushColor.Location = new System.Drawing.Point(7, 43);
             this.radioButtonBrushColor.Name = "radioButtonBrushColor";
             this.radioButtonBrushColor.Size = new System.Drawing.Size(48, 17);
             this.radioButtonBrushColor.TabIndex = 0;
-            this.radioButtonBrushColor.TabStop = true;
             this.radioButtonBrushColor.Text = "Solid";
             this.radioButtonBrushColor.UseVisualStyleBackColor = true;
             // 
@@ -277,6 +320,7 @@
             // 
             // groupBoxObject
             // 
+            this.groupBoxObject.Controls.Add(this.radioButtonBezier);
             this.groupBoxObject.Controls.Add(this.radioButtonEllipse);
             this.groupBoxObject.Controls.Add(this.textBox1);
             this.groupBoxObject.Controls.Add(this.radioButtonDigits);
@@ -303,7 +347,7 @@
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(63, 131);
+            this.textBox1.Location = new System.Drawing.Point(63, 156);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(74, 20);
             this.textBox1.TabIndex = 5;
@@ -311,7 +355,7 @@
             // radioButtonDigits
             // 
             this.radioButtonDigits.AutoSize = true;
-            this.radioButtonDigits.Location = new System.Drawing.Point(6, 134);
+            this.radioButtonDigits.Location = new System.Drawing.Point(6, 157);
             this.radioButtonDigits.Name = "radioButtonDigits";
             this.radioButtonDigits.Size = new System.Drawing.Size(51, 17);
             this.radioButtonDigits.TabIndex = 4;
@@ -371,35 +415,16 @@
             this.pictureBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseMove);
             this.pictureBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseUp);
             // 
-            // radioButtonBrushPattern1
+            // radioButtonBezier
             // 
-            this.radioButtonBrushPattern1.AutoSize = true;
-            this.radioButtonBrushPattern1.Location = new System.Drawing.Point(7, 42);
-            this.radioButtonBrushPattern1.Name = "radioButtonBrushPattern1";
-            this.radioButtonBrushPattern1.Size = new System.Drawing.Size(68, 17);
-            this.radioButtonBrushPattern1.TabIndex = 3;
-            this.radioButtonBrushPattern1.Text = "Pattern 1";
-            this.radioButtonBrushPattern1.UseVisualStyleBackColor = true;
-            // 
-            // radioButtonBrushPattern2
-            // 
-            this.radioButtonBrushPattern2.AutoSize = true;
-            this.radioButtonBrushPattern2.Location = new System.Drawing.Point(7, 65);
-            this.radioButtonBrushPattern2.Name = "radioButtonBrushPattern2";
-            this.radioButtonBrushPattern2.Size = new System.Drawing.Size(68, 17);
-            this.radioButtonBrushPattern2.TabIndex = 4;
-            this.radioButtonBrushPattern2.Text = "Pattern 2";
-            this.radioButtonBrushPattern2.UseVisualStyleBackColor = true;
-            // 
-            // radioButtonBrushPattern3
-            // 
-            this.radioButtonBrushPattern3.AutoSize = true;
-            this.radioButtonBrushPattern3.Location = new System.Drawing.Point(7, 88);
-            this.radioButtonBrushPattern3.Name = "radioButtonBrushPattern3";
-            this.radioButtonBrushPattern3.Size = new System.Drawing.Size(68, 17);
-            this.radioButtonBrushPattern3.TabIndex = 5;
-            this.radioButtonBrushPattern3.Text = "Pattern 3";
-            this.radioButtonBrushPattern3.UseVisualStyleBackColor = true;
+            this.radioButtonBezier.AutoSize = true;
+            this.radioButtonBezier.Location = new System.Drawing.Point(6, 134);
+            this.radioButtonBezier.Name = "radioButtonBezier";
+            this.radioButtonBezier.Size = new System.Drawing.Size(85, 17);
+            this.radioButtonBezier.TabIndex = 7;
+            this.radioButtonBezier.TabStop = true;
+            this.radioButtonBezier.Text = "Bezier Curve";
+            this.radioButtonBezier.UseVisualStyleBackColor = true;
             // 
             // MainForm
             // 
@@ -461,6 +486,8 @@
         private System.Windows.Forms.RadioButton radioButtonBrushPattern1;
         private System.Windows.Forms.RadioButton radioButtonBrushPattern3;
         private System.Windows.Forms.RadioButton radioButtonBrushPattern2;
+        private System.Windows.Forms.RadioButton radioButtonBrushTransparent;
+        private System.Windows.Forms.RadioButton radioButtonBezier;
     }
 }
 
