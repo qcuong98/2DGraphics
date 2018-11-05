@@ -51,15 +51,18 @@
             this.groupBoxColor = new System.Windows.Forms.GroupBox();
             this.pictureBoxPenColor = new System.Windows.Forms.PictureBox();
             this.groupBoxObject = new System.Windows.Forms.GroupBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.textBoxPolygon = new System.Windows.Forms.TextBox();
+            this.radioButtonEraser = new System.Windows.Forms.RadioButton();
+            this.radioButtonPolygon = new System.Windows.Forms.RadioButton();
+            this.radioButtonBezier = new System.Windows.Forms.RadioButton();
             this.radioButtonEllipse = new System.Windows.Forms.RadioButton();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.radioButtonDigits = new System.Windows.Forms.RadioButton();
+            this.textBoxString = new System.Windows.Forms.TextBox();
             this.radioButtonRectangle = new System.Windows.Forms.RadioButton();
+            this.radioButtonString = new System.Windows.Forms.RadioButton();
             this.radioButtonCircle = new System.Windows.Forms.RadioButton();
             this.radioButtonLine = new System.Windows.Forms.RadioButton();
-            this.radioButtonSelect = new System.Windows.Forms.RadioButton();
             this.pictureBox = new System.Windows.Forms.PictureBox();
-            this.radioButtonBezier = new System.Windows.Forms.RadioButton();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
             this.splitContainer.Panel1.SuspendLayout();
             this.splitContainer.Panel2.SuspendLayout();
@@ -92,7 +95,7 @@
             // splitContainer.Panel2
             // 
             this.splitContainer.Panel2.Controls.Add(this.pictureBox);
-            this.splitContainer.Size = new System.Drawing.Size(1216, 549);
+            this.splitContainer.Size = new System.Drawing.Size(1216, 573);
             this.splitContainer.SplitterDistance = 329;
             this.splitContainer.TabIndex = 0;
             // 
@@ -100,7 +103,7 @@
             // 
             this.groupBoxFile.Controls.Add(this.buttonLoadFile);
             this.groupBoxFile.Controls.Add(this.buttonSaveFile);
-            this.groupBoxFile.Location = new System.Drawing.Point(160, 462);
+            this.groupBoxFile.Location = new System.Drawing.Point(160, 487);
             this.groupBoxFile.Name = "groupBoxFile";
             this.groupBoxFile.Size = new System.Drawing.Size(162, 80);
             this.groupBoxFile.TabIndex = 4;
@@ -135,9 +138,9 @@
             this.groupBoxTypeOfBrush.Controls.Add(this.radioButtonBrushPattern1);
             this.groupBoxTypeOfBrush.Controls.Add(this.pictureBoxBrushColor);
             this.groupBoxTypeOfBrush.Controls.Add(this.radioButtonBrushColor);
-            this.groupBoxTypeOfBrush.Location = new System.Drawing.Point(159, 233);
+            this.groupBoxTypeOfBrush.Location = new System.Drawing.Point(10, 434);
             this.groupBoxTypeOfBrush.Name = "groupBoxTypeOfBrush";
-            this.groupBoxTypeOfBrush.Size = new System.Drawing.Size(163, 140);
+            this.groupBoxTypeOfBrush.Size = new System.Drawing.Size(144, 133);
             this.groupBoxTypeOfBrush.TabIndex = 3;
             this.groupBoxTypeOfBrush.TabStop = false;
             this.groupBoxTypeOfBrush.Text = "Type of Brush";
@@ -188,7 +191,7 @@
             // 
             this.pictureBoxBrushColor.Location = new System.Drawing.Point(75, 43);
             this.pictureBoxBrushColor.Name = "pictureBoxBrushColor";
-            this.pictureBoxBrushColor.Size = new System.Drawing.Size(82, 17);
+            this.pictureBoxBrushColor.Size = new System.Drawing.Size(62, 17);
             this.pictureBoxBrushColor.TabIndex = 2;
             this.pictureBoxBrushColor.TabStop = false;
             this.pictureBoxBrushColor.Click += new System.EventHandler(this.pictureBoxBrushColor_Click);
@@ -213,9 +216,9 @@
             this.groupBoxPens.Controls.Add(this.radioButtonDash);
             this.groupBoxPens.Controls.Add(this.radioButtonDot);
             this.groupBoxPens.Controls.Add(this.radioButtonSolid);
-            this.groupBoxPens.Location = new System.Drawing.Point(160, 63);
+            this.groupBoxPens.Location = new System.Drawing.Point(10, 273);
             this.groupBoxPens.Name = "groupBoxPens";
-            this.groupBoxPens.Size = new System.Drawing.Size(162, 164);
+            this.groupBoxPens.Size = new System.Drawing.Size(144, 155);
             this.groupBoxPens.TabIndex = 2;
             this.groupBoxPens.TabStop = false;
             this.groupBoxPens.Text = "Types of Pen";
@@ -223,7 +226,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(89, 21);
+            this.label1.Location = new System.Drawing.Point(81, 21);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(35, 13);
             this.label1.TabIndex = 9;
@@ -231,9 +234,9 @@
             // 
             // textBoxWidth
             // 
-            this.textBoxWidth.Location = new System.Drawing.Point(122, 18);
+            this.textBoxWidth.Location = new System.Drawing.Point(116, 18);
             this.textBoxWidth.Name = "textBoxWidth";
-            this.textBoxWidth.Size = new System.Drawing.Size(34, 20);
+            this.textBoxWidth.Size = new System.Drawing.Size(22, 20);
             this.textBoxWidth.TabIndex = 6;
             this.textBoxWidth.Text = "1";
             // 
@@ -302,9 +305,9 @@
             // groupBoxColor
             // 
             this.groupBoxColor.Controls.Add(this.pictureBoxPenColor);
-            this.groupBoxColor.Location = new System.Drawing.Point(159, 10);
+            this.groupBoxColor.Location = new System.Drawing.Point(10, 220);
             this.groupBoxColor.Name = "groupBoxColor";
-            this.groupBoxColor.Size = new System.Drawing.Size(163, 47);
+            this.groupBoxColor.Size = new System.Drawing.Size(144, 47);
             this.groupBoxColor.TabIndex = 1;
             this.groupBoxColor.TabStop = false;
             this.groupBoxColor.Text = "Pen Color";
@@ -313,69 +316,123 @@
             // 
             this.pictureBoxPenColor.Location = new System.Drawing.Point(7, 19);
             this.pictureBoxPenColor.Name = "pictureBoxPenColor";
-            this.pictureBoxPenColor.Size = new System.Drawing.Size(150, 17);
+            this.pictureBoxPenColor.Size = new System.Drawing.Size(130, 17);
             this.pictureBoxPenColor.TabIndex = 3;
             this.pictureBoxPenColor.TabStop = false;
             this.pictureBoxPenColor.Click += new System.EventHandler(this.pictureBoxPenColor_Click);
             // 
             // groupBoxObject
             // 
+            this.groupBoxObject.Controls.Add(this.label2);
+            this.groupBoxObject.Controls.Add(this.textBoxPolygon);
+            this.groupBoxObject.Controls.Add(this.radioButtonEraser);
+            this.groupBoxObject.Controls.Add(this.radioButtonPolygon);
             this.groupBoxObject.Controls.Add(this.radioButtonBezier);
             this.groupBoxObject.Controls.Add(this.radioButtonEllipse);
-            this.groupBoxObject.Controls.Add(this.textBox1);
-            this.groupBoxObject.Controls.Add(this.radioButtonDigits);
+            this.groupBoxObject.Controls.Add(this.textBoxString);
             this.groupBoxObject.Controls.Add(this.radioButtonRectangle);
+            this.groupBoxObject.Controls.Add(this.radioButtonString);
             this.groupBoxObject.Controls.Add(this.radioButtonCircle);
             this.groupBoxObject.Controls.Add(this.radioButtonLine);
-            this.groupBoxObject.Controls.Add(this.radioButtonSelect);
             this.groupBoxObject.Location = new System.Drawing.Point(10, 10);
             this.groupBoxObject.Name = "groupBoxObject";
-            this.groupBoxObject.Size = new System.Drawing.Size(143, 532);
+            this.groupBoxObject.Size = new System.Drawing.Size(143, 204);
             this.groupBoxObject.TabIndex = 0;
             this.groupBoxObject.TabStop = false;
             this.groupBoxObject.Text = "Object";
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(92, 136);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(24, 13);
+            this.label2.TabIndex = 11;
+            this.label2.Text = "N =";
+            // 
+            // textBoxPolygon
+            // 
+            this.textBoxPolygon.Location = new System.Drawing.Point(116, 133);
+            this.textBoxPolygon.Name = "textBoxPolygon";
+            this.textBoxPolygon.Size = new System.Drawing.Size(21, 20);
+            this.textBoxPolygon.TabIndex = 10;
+            this.textBoxPolygon.Text = "3";
+            this.textBoxPolygon.TextChanged += new System.EventHandler(this.textBoxPolygon_TextChanged);
+            // 
+            // radioButtonEraser
+            // 
+            this.radioButtonEraser.AutoSize = true;
+            this.radioButtonEraser.Location = new System.Drawing.Point(6, 182);
+            this.radioButtonEraser.Name = "radioButtonEraser";
+            this.radioButtonEraser.Size = new System.Drawing.Size(55, 17);
+            this.radioButtonEraser.TabIndex = 9;
+            this.radioButtonEraser.TabStop = true;
+            this.radioButtonEraser.Text = "Eraser";
+            this.radioButtonEraser.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonPolygon
+            // 
+            this.radioButtonPolygon.AutoSize = true;
+            this.radioButtonPolygon.Location = new System.Drawing.Point(6, 134);
+            this.radioButtonPolygon.Name = "radioButtonPolygon";
+            this.radioButtonPolygon.Size = new System.Drawing.Size(63, 17);
+            this.radioButtonPolygon.TabIndex = 8;
+            this.radioButtonPolygon.TabStop = true;
+            this.radioButtonPolygon.Text = "Polygon";
+            this.radioButtonPolygon.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonBezier
+            // 
+            this.radioButtonBezier.AutoSize = true;
+            this.radioButtonBezier.Location = new System.Drawing.Point(6, 111);
+            this.radioButtonBezier.Name = "radioButtonBezier";
+            this.radioButtonBezier.Size = new System.Drawing.Size(85, 17);
+            this.radioButtonBezier.TabIndex = 7;
+            this.radioButtonBezier.Text = "Bezier Curve";
+            this.radioButtonBezier.UseVisualStyleBackColor = true;
+            // 
             // radioButtonEllipse
             // 
             this.radioButtonEllipse.AutoSize = true;
-            this.radioButtonEllipse.Location = new System.Drawing.Point(6, 88);
+            this.radioButtonEllipse.Location = new System.Drawing.Point(6, 65);
             this.radioButtonEllipse.Name = "radioButtonEllipse";
             this.radioButtonEllipse.Size = new System.Drawing.Size(55, 17);
             this.radioButtonEllipse.TabIndex = 6;
             this.radioButtonEllipse.Text = "Ellipse";
             this.radioButtonEllipse.UseVisualStyleBackColor = true;
             // 
-            // textBox1
+            // textBoxString
             // 
-            this.textBox1.Location = new System.Drawing.Point(63, 156);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(74, 20);
-            this.textBox1.TabIndex = 5;
-            // 
-            // radioButtonDigits
-            // 
-            this.radioButtonDigits.AutoSize = true;
-            this.radioButtonDigits.Location = new System.Drawing.Point(6, 157);
-            this.radioButtonDigits.Name = "radioButtonDigits";
-            this.radioButtonDigits.Size = new System.Drawing.Size(51, 17);
-            this.radioButtonDigits.TabIndex = 4;
-            this.radioButtonDigits.Text = "Digits";
-            this.radioButtonDigits.UseVisualStyleBackColor = true;
+            this.textBoxString.Location = new System.Drawing.Point(63, 156);
+            this.textBoxString.Name = "textBoxString";
+            this.textBoxString.Size = new System.Drawing.Size(74, 20);
+            this.textBoxString.TabIndex = 5;
+            this.textBoxString.Text = "qcuong98";
             // 
             // radioButtonRectangle
             // 
             this.radioButtonRectangle.AutoSize = true;
-            this.radioButtonRectangle.Location = new System.Drawing.Point(6, 111);
+            this.radioButtonRectangle.Location = new System.Drawing.Point(6, 88);
             this.radioButtonRectangle.Name = "radioButtonRectangle";
             this.radioButtonRectangle.Size = new System.Drawing.Size(74, 17);
             this.radioButtonRectangle.TabIndex = 3;
             this.radioButtonRectangle.Text = "Rectangle";
             this.radioButtonRectangle.UseVisualStyleBackColor = true;
             // 
+            // radioButtonString
+            // 
+            this.radioButtonString.AutoSize = true;
+            this.radioButtonString.Location = new System.Drawing.Point(6, 157);
+            this.radioButtonString.Name = "radioButtonString";
+            this.radioButtonString.Size = new System.Drawing.Size(52, 17);
+            this.radioButtonString.TabIndex = 4;
+            this.radioButtonString.Text = "String";
+            this.radioButtonString.UseVisualStyleBackColor = true;
+            // 
             // radioButtonCircle
             // 
             this.radioButtonCircle.AutoSize = true;
-            this.radioButtonCircle.Location = new System.Drawing.Point(6, 65);
+            this.radioButtonCircle.Location = new System.Drawing.Point(6, 42);
             this.radioButtonCircle.Name = "radioButtonCircle";
             this.radioButtonCircle.Size = new System.Drawing.Size(51, 17);
             this.radioButtonCircle.TabIndex = 2;
@@ -385,53 +442,34 @@
             // radioButtonLine
             // 
             this.radioButtonLine.AutoSize = true;
-            this.radioButtonLine.Location = new System.Drawing.Point(6, 42);
+            this.radioButtonLine.Checked = true;
+            this.radioButtonLine.Location = new System.Drawing.Point(6, 19);
             this.radioButtonLine.Name = "radioButtonLine";
             this.radioButtonLine.Size = new System.Drawing.Size(45, 17);
             this.radioButtonLine.TabIndex = 1;
+            this.radioButtonLine.TabStop = true;
             this.radioButtonLine.Text = "Line";
             this.radioButtonLine.UseVisualStyleBackColor = true;
-            // 
-            // radioButtonSelect
-            // 
-            this.radioButtonSelect.AutoSize = true;
-            this.radioButtonSelect.Checked = true;
-            this.radioButtonSelect.Location = new System.Drawing.Point(6, 19);
-            this.radioButtonSelect.Name = "radioButtonSelect";
-            this.radioButtonSelect.Size = new System.Drawing.Size(55, 17);
-            this.radioButtonSelect.TabIndex = 0;
-            this.radioButtonSelect.TabStop = true;
-            this.radioButtonSelect.Text = "Select";
-            this.radioButtonSelect.UseVisualStyleBackColor = true;
             // 
             // pictureBox
             // 
             this.pictureBox.Location = new System.Drawing.Point(3, -2);
             this.pictureBox.Name = "pictureBox";
-            this.pictureBox.Size = new System.Drawing.Size(873, 544);
+            this.pictureBox.Size = new System.Drawing.Size(873, 569);
             this.pictureBox.TabIndex = 1;
             this.pictureBox.TabStop = false;
             this.pictureBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseDown);
             this.pictureBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseMove);
             this.pictureBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseUp);
             // 
-            // radioButtonBezier
-            // 
-            this.radioButtonBezier.AutoSize = true;
-            this.radioButtonBezier.Location = new System.Drawing.Point(6, 134);
-            this.radioButtonBezier.Name = "radioButtonBezier";
-            this.radioButtonBezier.Size = new System.Drawing.Size(85, 17);
-            this.radioButtonBezier.TabIndex = 7;
-            this.radioButtonBezier.TabStop = true;
-            this.radioButtonBezier.Text = "Bezier Curve";
-            this.radioButtonBezier.UseVisualStyleBackColor = true;
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1228, 561);
+            this.ClientSize = new System.Drawing.Size(1221, 578);
             this.Controls.Add(this.splitContainer);
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "2D Graphics";
@@ -461,10 +499,9 @@
         private System.Windows.Forms.GroupBox groupBoxObject;
         private System.Windows.Forms.RadioButton radioButtonCircle;
         private System.Windows.Forms.RadioButton radioButtonLine;
-        private System.Windows.Forms.RadioButton radioButtonSelect;
         private System.Windows.Forms.RadioButton radioButtonRectangle;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.RadioButton radioButtonDigits;
+        private System.Windows.Forms.TextBox textBoxString;
+        private System.Windows.Forms.RadioButton radioButtonString;
         private System.Windows.Forms.GroupBox groupBoxColor;
         private System.Windows.Forms.GroupBox groupBoxPens;
         private System.Windows.Forms.RadioButton radioButtonNull;
@@ -488,6 +525,10 @@
         private System.Windows.Forms.RadioButton radioButtonBrushPattern2;
         private System.Windows.Forms.RadioButton radioButtonBrushTransparent;
         private System.Windows.Forms.RadioButton radioButtonBezier;
+        private System.Windows.Forms.RadioButton radioButtonEraser;
+        private System.Windows.Forms.RadioButton radioButtonPolygon;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox textBoxPolygon;
     }
 }
 

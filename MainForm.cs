@@ -15,12 +15,13 @@ namespace Graphics2D
     {
         private const int MAX_LAYER = 1000;
 
-        private const int SELECT = 0;
         private const int LINE = 1;
         private const int CIRCLE = 2;
         private const int ELLIPSE = 3;
         private const int RECTANGLE = 4;
         private const int BEZIER = 5;
+        private const int POLYGON = 6;
+        private const int STRING = 7;
 
         int nGraphicsPath;
         private GraphicsPath[] myGraphicsPaths;
@@ -28,7 +29,7 @@ namespace Graphics2D
         private Brush[] myBrushes;
 
         int nPoint;
-        private Point[] Points;
+        private PointF[] Points;
 
         bool MouseDowned;
 
@@ -42,19 +43,12 @@ namespace Graphics2D
             myBrushes = new Brush[MAX_LAYER];
 
             nPoint = 0;
-            Points = new Point[100];
+            Points = new PointF[100];
 
             /* init background of PictureBoxes*/
             pictureBoxBrushColor.BackColor = Color.Navy;
             pictureBoxPenColor.BackColor = Color.Red;
             pictureBox.BackColor = Color.White;
-
-            //myGraphicsPaths[0] = new GraphicsPath();
-            //myGraphicsPaths[0].AddBezier(new PointF(100, 100), new PointF(200, 200), new PointF(300, 100), new PointF(100, 400));
-            //myBrushes[0] = new SolidBrush(Color.Black);
-            //myPens[0] = new Pen(Brushes.Red);
-            //nGraphicsPath = 1;
-            //RefreshGraphics();
         }
 
         private int GetObject()
@@ -69,44 +63,26 @@ namespace Graphics2D
                 return RECTANGLE;
             if (radioButtonBezier.Checked)
                 return BEZIER;
-            return SELECT;
+            if (radioButtonPolygon.Checked)
+                return POLYGON;
+            if (radioButtonString.Checked)
+                return STRING;
+            return 0;
         }
 
         private int NoOfControlPoints(int Shape)
         {
             switch (Shape)
             {
-                case LINE:
-                case CIRCLE:
-                case ELLIPSE:
-                case RECTANGLE:
-                    return 2;
                 case BEZIER:
                     return 4;
+                case POLYGON:       
+                    return (textBoxPolygon.Text == "" ? 3 : System.Convert.ToInt32(textBoxPolygon.Text));
+                case STRING:
+                    return 1;
+                default:
+                    return 2;
             }
-            return 0;
-        }
-
-        private float CheckValidFloat(string p)
-        {
-            float i = -1;
-            try
-            {
-                i = (float)System.Convert.ToDouble(p);
-            }
-            catch (Exception)
-            {
-                MessageBox.Show("Width is invalid! Set width = 1.");
-                textBoxWidth.Text = "1";
-                return -1;
-            }
-            if (i <= 0)
-            {
-                MessageBox.Show("Width have to be greater than 0! Set width = 1.");
-                textBoxWidth.Text = "1";
-                return -1;
-            }
-            return i;
         }
 
         private Pen GetPen()
@@ -159,6 +135,7 @@ namespace Graphics2D
 
         private void pictureBox_MouseDown(object sender, MouseEventArgs e)
         {
+            pictureBox.CreateGraphics().DrawEllipse(new Pen(Color.Black), e.X - 1, e.Y - 1, 3, 3);
             if (NoOfControlPoints(GetObject()) == 2)
             {
                 Points[0] = new Point(e.X, e.Y);
@@ -168,10 +145,7 @@ namespace Graphics2D
                 Points[nPoint] = new Point(e.X, e.Y);
                 ++nPoint;
                 if (nPoint == NoOfControlPoints(GetObject()))
-                {
                     Render();
-                    nPoint = 0;
-                }
             }
 
             MouseDowned = true;
@@ -183,8 +157,7 @@ namespace Graphics2D
             {
                 Points[1] = new Point(e.X, e.Y);
                 Render();
-                if (GetObject() != SELECT)
-                    --nGraphicsPath;
+                --nGraphicsPath;
             }
         }
 
@@ -204,39 +177,52 @@ namespace Graphics2D
 
         private void Render()
         {
-            if (GetObject() == LINE)
-                AddGraphicsPath(new Line(Points[0], Points[1]));
-            else if (GetObject() == CIRCLE) {
-                float r = (float)Math.Sqrt(sqr(Points[1].X - Points[0].X) + sqr(Points[1].Y - Points[0].Y));
-                AddGraphicsPath(new Ellipse(new PointF(Points[0].X - r, Points[0].Y - r), 2 * r, 2 * r));
-            }
-            else if (GetObject() == ELLIPSE)
+            PointF a, b;
+            int typeObject = GetObject();
+
+            switch (typeObject)
             {
-                PointF a = new PointF(Math.Min(Points[0].X, Points[1].X), Math.Min(Points[0].Y, Points[1].Y));
-                int wid = Math.Abs(Points[1].X - Points[0].X), hgt = Math.Abs(Points[1].Y - Points[0].Y);
-                AddGraphicsPath(new Ellipse(a, wid, hgt));
+                case LINE:
+                    AddGraphicsPath(new Line(Points[0], Points[1]));
+                    break;
+                case CIRCLE:
+                    float r = (float)Math.Sqrt(sqr(Points[1].X - Points[0].X) + sqr(Points[1].Y - Points[0].Y));
+                    AddGraphicsPath(new Ellipse(new PointF(Points[0].X - r, Points[0].Y - r), 2 * r, 2 * r));
+                    break;
+                case ELLIPSE:
+                    a = new PointF(Math.Min(Points[0].X, Points[1].X), Math.Min(Points[0].Y, Points[1].Y));
+                    float wid = Math.Abs(Points[1].X - Points[0].X), hgt = Math.Abs(Points[1].Y - Points[0].Y);
+                    AddGraphicsPath(new Ellipse(a, wid, hgt));
+                    break;
+                case RECTANGLE:
+                    a = new PointF(Math.Min(Points[0].X, Points[1].X), Math.Min(Points[0].Y, Points[1].Y));
+                    b = new PointF(Math.Max(Points[0].X, Points[1].X), Math.Max(Points[0].Y, Points[1].Y));
+                    AddGraphicsPath(new Rectangle(a, b));
+                    break;
+                case BEZIER:
+                    AddGraphicsPath(new Bezier(Points[0], Points[1], Points[2], Points[3]));
+                    break;
+                case POLYGON:
+                    PointF[] tmp = new PointF[nPoint];
+                    for (int i = 0; i < nPoint; ++i)
+                       tmp[i] = Points[i];
+                    AddGraphicsPath(new Polygon(tmp));
+                    break;
+                case STRING:
+                    AddGraphicsPath(new String(new Point((int)Points[0].X, (int)Points[0].Y), textBoxString.Text));
+                    break;
             }
-            else if (GetObject() == RECTANGLE)
-            {
-                PointF a = new PointF(Math.Min(Points[0].X, Points[1].X), Math.Min(Points[0].Y, Points[1].Y));
-                PointF b = new PointF(Math.Max(Points[0].X, Points[1].X), Math.Max(Points[0].Y, Points[1].Y));
-                AddGraphicsPath(new Rectangle(a, b));
-            }
-            else if (GetObject() == BEZIER)
-            {
-                AddGraphicsPath(new Bezier(Points[0], Points[1], Points[2], Points[3]));
-            }
-            if (GetObject() != SELECT)
-                RefreshGraphics();
+            RefreshGraphics();
+            nPoint = 0;
         }
 
         private void AddGraphicsPath(Shape myShape)
         {
-            myGraphicsPaths[nGraphicsPath] = new GraphicsPath();
-            myShape.AddTo(myGraphicsPaths[nGraphicsPath]);
-            myPens[nGraphicsPath] = GetPen();
-            myBrushes[nGraphicsPath] = GetBrush();
             ++nGraphicsPath;
+            myGraphicsPaths[nGraphicsPath - 1] = new GraphicsPath();
+            myShape.AddTo(myGraphicsPaths[nGraphicsPath - 1]);
+            myPens[nGraphicsPath - 1] = GetPen();
+            myBrushes[nGraphicsPath - 1] = GetBrush();
         }
 
         private void RefreshGraphics()
@@ -310,6 +296,44 @@ namespace Graphics2D
 
             if (myColorDialog.ShowDialog() == DialogResult.OK)
                 pictureBoxPenColor.BackColor = myColorDialog.Color;
-        }  
+        }
+
+        private float CheckValidFloat(string p)
+        {
+            float i = -1;
+            try
+            {
+                i = (float)System.Convert.ToDouble(p);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Width is invalid! Set width = 1.");
+                textBoxWidth.Text = "1";
+                return -1;
+            }
+            if (i <= 0)
+            {
+                MessageBox.Show("Width have to be greater than 0! Set width = 1.");
+                textBoxWidth.Text = "1";
+                return -1;
+            }
+            return i;
+        }
+
+        private void textBoxPolygon_TextChanged(object sender, EventArgs e)
+        {
+            if (textBoxPolygon.Text == "")
+                return;
+            try
+            {
+                int n = System.Convert.ToInt32(textBoxPolygon.Text);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("N is invalid! Set N = 3.");
+                textBoxPolygon.Text = "3";
+                return;
+            }
+        }
     }
 }
