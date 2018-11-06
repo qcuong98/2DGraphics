@@ -22,11 +22,13 @@ namespace Graphics2D
         private const int BEZIER = 5;
         private const int POLYGON = 6;
         private const int STRING = 7;
+        private const int PARABOLA = 8;
 
-        int nGraphicsPath;
-        private GraphicsPath[] myGraphicsPaths;
-        private Pen[] myPens;
-        private Brush[] myBrushes;
+        public static int PB_WIDTH;
+        public static int PB_HEIGHT;
+
+        int nLayer;
+        private Layer[] myLayers;
 
         int nPoint;
         private PointF[] Points;
@@ -36,11 +38,9 @@ namespace Graphics2D
         public MainForm()
         {
             InitializeComponent();
-            
-            nGraphicsPath = 0;
-            myGraphicsPaths = new GraphicsPath[MAX_LAYER];
-            myPens = new Pen[MAX_LAYER];
-            myBrushes = new Brush[MAX_LAYER];
+
+            nLayer = 0;
+            myLayers = new Layer[MAX_LAYER];
 
             nPoint = 0;
             Points = new PointF[100];
@@ -49,6 +49,9 @@ namespace Graphics2D
             pictureBoxBrushColor.BackColor = Color.Navy;
             pictureBoxPenColor.BackColor = Color.Red;
             pictureBox.BackColor = Color.White;
+
+            PB_WIDTH = pictureBox.ClientSize.Width;
+            PB_HEIGHT = pictureBox.ClientSize.Height;
         }
 
         private int GetObject()
@@ -67,6 +70,8 @@ namespace Graphics2D
                 return POLYGON;
             if (radioButtonString.Checked)
                 return STRING;
+            if (radioButtonParabola.Checked)
+                return PARABOLA;
             return 0;
         }
 
@@ -157,7 +162,7 @@ namespace Graphics2D
             {
                 Points[1] = new Point(e.X, e.Y);
                 Render();
-                --nGraphicsPath;
+                --nLayer;
             }
         }
 
@@ -211,6 +216,17 @@ namespace Graphics2D
                 case STRING:
                     AddGraphicsPath(new String(new Point((int)Points[0].X, (int)Points[0].Y), textBoxString.Text));
                     break;
+                case PARABOLA:
+                    if (Points[1].X == Points[0].X)
+                        Points[1].X = Points[0].X + 1;
+                    float A = (Points[1].Y - Points[0].Y) / sqr(Points[1].X - Points[0].X);
+                    float B = -2 * A * Points[0].X;
+                    float C = A * sqr(Points[0].X) + Points[0].Y;
+
+                    float p1 = A * Points[0].X * Points[0].X + B * Points[0].X + C;
+                    float p2 = A * Points[1].X * Points[1].X + B * Points[1].X + C;
+                    AddGraphicsPath(new Parabola(A, B, C));
+                    break;
             }
             RefreshGraphics();
             nPoint = 0;
@@ -218,25 +234,22 @@ namespace Graphics2D
 
         private void AddGraphicsPath(Shape myShape)
         {
-            ++nGraphicsPath;
-            myGraphicsPaths[nGraphicsPath - 1] = new GraphicsPath();
-            myShape.AddTo(myGraphicsPaths[nGraphicsPath - 1]);
-            myPens[nGraphicsPath - 1] = GetPen();
-            myBrushes[nGraphicsPath - 1] = GetBrush();
+            GraphicsPath tmpGraphicsPath = new GraphicsPath();
+            myShape.AddTo(tmpGraphicsPath);
+            ++nLayer;
+            myLayers[nLayer - 1] = new Layer(myShape, tmpGraphicsPath, GetPen(), GetBrush());
         }
 
         private void RefreshGraphics()
         {
-            int wid = pictureBox.ClientSize.Width;
-            int hgt = pictureBox.ClientSize.Height;
-            Bitmap bm = new Bitmap(wid, hgt);
+            Bitmap bm = new Bitmap(PB_WIDTH, PB_HEIGHT);
             using (Graphics gr = Graphics.FromImage(bm))
             {
                 gr.Clear(Color.White);
-                for (int i = 0; i < nGraphicsPath; ++i)
+                for (int i = 0; i < nLayer; ++i)
                 {
-                    gr.FillPath(myBrushes[i], myGraphicsPaths[i]);
-                    gr.DrawPath(myPens[i], myGraphicsPaths[i]);
+                    gr.DrawPath(myLayers[i].myPen, myLayers[i].myGraphicsPath);
+                    gr.FillPath(myLayers[i].myBrush, myLayers[i].myGraphicsPath);
                 }
             }
             pictureBox.Image = bm;
