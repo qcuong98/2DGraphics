@@ -26,21 +26,23 @@ namespace Graphics2D
 
         public override void AddTo(GraphicsPath myGraphicsPath)
         {
-            PointF[] p = new PointF[MainForm.PB_WIDTH];
-            int nPoint = 0;
-            for (int x = 0; x < MainForm.PB_WIDTH; ++x)
-            {
-                float y = F(x);
-                if (y >= 0 && y < MainForm.PB_HEIGHT)
-                {
-                    ++nPoint;
-                    p[nPoint - 1] = new PointF(x, y);
-                }
-            }
+            int x;
 
-            PointF[] pixels = new PointF[nPoint];
-            Array.Copy(p, pixels, nPoint);
-            myGraphicsPath.AddLines(pixels);
+            x = 0;
+            while (F(x - 1) >= 0 && F(x - 1) < MainForm.PB_HEIGHT)
+                --x;
+            PointF p1 = new PointF(x, F(x));
+
+            x = MainForm.PB_WIDTH - 1;
+            while (F(x + 1) >= 0 && F(x + 1) < MainForm.PB_HEIGHT)
+                ++x;
+            PointF p2 = new PointF(x, F(x));
+
+            PointF pc = new PointF((p1.X + p2.X) / 2, p1.Y + (2 * a * p1.X + b) * (p2.X - p1.X) / 2);
+            PointF c1 = new PointF(2F / 3 * pc.X + 1F / 3 * p1.X, 2F / 3 * pc.Y + 1F / 3 * p1.Y);
+            PointF c2 = new PointF(2F / 3 * pc.X + 1F / 3 * p2.X, 2F / 3 * pc.Y + 1F / 3 * p2.Y);
+
+            myGraphicsPath.AddBezier(p1, c1, c2, p2);
         }
     }
 }

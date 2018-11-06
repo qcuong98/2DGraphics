@@ -23,6 +23,7 @@ namespace Graphics2D
         private const int POLYGON = 6;
         private const int STRING = 7;
         private const int PARABOLA = 8;
+        private const int HYPERBOLA = 9;
 
         public static int PB_WIDTH;
         public static int PB_HEIGHT;
@@ -217,8 +218,11 @@ namespace Graphics2D
                     AddGraphicsPath(new String(new Point((int)Points[0].X, (int)Points[0].Y), textBoxString.Text));
                     break;
                 case PARABOLA:
-                    if (Points[1].X == Points[0].X)
-                        Points[1].X = Points[0].X + 1;
+                    if (Math.Abs(Points[1].X - Points[0].X) < 5)
+                        Points[1].X = Points[0].X + 5;
+                    if (Math.Abs(Points[1].Y - Points[0].Y) < 5)
+                        Points[1].Y = Points[0].Y + 5;
+
                     float A = (Points[1].Y - Points[0].Y) / sqr(Points[1].X - Points[0].X);
                     float B = -2 * A * Points[0].X;
                     float C = A * sqr(Points[0].X) + Points[0].Y;

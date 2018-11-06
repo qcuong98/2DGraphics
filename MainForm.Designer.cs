@@ -51,8 +51,12 @@
             this.groupBoxColor = new System.Windows.Forms.GroupBox();
             this.pictureBoxPenColor = new System.Windows.Forms.PictureBox();
             this.groupBoxObject = new System.Windows.Forms.GroupBox();
+            this.radioButtonParabola = new System.Windows.Forms.RadioButton();
+            this.radioButtonRotate = new System.Windows.Forms.RadioButton();
             this.label2 = new System.Windows.Forms.Label();
+            this.radioButtonZoom = new System.Windows.Forms.RadioButton();
             this.textBoxPolygon = new System.Windows.Forms.TextBox();
+            this.radioButtonMove = new System.Windows.Forms.RadioButton();
             this.radioButtonEraser = new System.Windows.Forms.RadioButton();
             this.radioButtonPolygon = new System.Windows.Forms.RadioButton();
             this.radioButtonBezier = new System.Windows.Forms.RadioButton();
@@ -63,10 +67,7 @@
             this.radioButtonCircle = new System.Windows.Forms.RadioButton();
             this.radioButtonLine = new System.Windows.Forms.RadioButton();
             this.pictureBox = new System.Windows.Forms.PictureBox();
-            this.radioButtonRotate = new System.Windows.Forms.RadioButton();
-            this.radioButtonZoom = new System.Windows.Forms.RadioButton();
-            this.radioButtonMove = new System.Windows.Forms.RadioButton();
-            this.radioButtonParabola = new System.Windows.Forms.RadioButton();
+            this.radioButtonHyperbola = new System.Windows.Forms.RadioButton();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
             this.splitContainer.Panel1.SuspendLayout();
             this.splitContainer.Panel2.SuspendLayout();
@@ -327,6 +328,7 @@
             // 
             // groupBoxObject
             // 
+            this.groupBoxObject.Controls.Add(this.radioButtonHyperbola);
             this.groupBoxObject.Controls.Add(this.radioButtonParabola);
             this.groupBoxObject.Controls.Add(this.radioButtonRotate);
             this.groupBoxObject.Controls.Add(this.label2);
@@ -349,6 +351,28 @@
             this.groupBoxObject.TabStop = false;
             this.groupBoxObject.Text = "Object";
             // 
+            // radioButtonParabola
+            // 
+            this.radioButtonParabola.AutoSize = true;
+            this.radioButtonParabola.Location = new System.Drawing.Point(171, 19);
+            this.radioButtonParabola.Name = "radioButtonParabola";
+            this.radioButtonParabola.Size = new System.Drawing.Size(67, 17);
+            this.radioButtonParabola.TabIndex = 12;
+            this.radioButtonParabola.TabStop = true;
+            this.radioButtonParabola.Text = "Parabola";
+            this.radioButtonParabola.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonRotate
+            // 
+            this.radioButtonRotate.AutoSize = true;
+            this.radioButtonRotate.Location = new System.Drawing.Point(171, 134);
+            this.radioButtonRotate.Name = "radioButtonRotate";
+            this.radioButtonRotate.Size = new System.Drawing.Size(57, 17);
+            this.radioButtonRotate.TabIndex = 7;
+            this.radioButtonRotate.TabStop = true;
+            this.radioButtonRotate.Text = "Rotate";
+            this.radioButtonRotate.UseVisualStyleBackColor = true;
+            // 
             // label2
             // 
             this.label2.AutoSize = true;
@@ -358,6 +382,17 @@
             this.label2.TabIndex = 11;
             this.label2.Text = "N =";
             // 
+            // radioButtonZoom
+            // 
+            this.radioButtonZoom.AutoSize = true;
+            this.radioButtonZoom.Location = new System.Drawing.Point(171, 111);
+            this.radioButtonZoom.Name = "radioButtonZoom";
+            this.radioButtonZoom.Size = new System.Drawing.Size(52, 17);
+            this.radioButtonZoom.TabIndex = 6;
+            this.radioButtonZoom.TabStop = true;
+            this.radioButtonZoom.Text = "Zoom";
+            this.radioButtonZoom.UseVisualStyleBackColor = true;
+            // 
             // textBoxPolygon
             // 
             this.textBoxPolygon.Location = new System.Drawing.Point(116, 133);
@@ -366,6 +401,17 @@
             this.textBoxPolygon.TabIndex = 10;
             this.textBoxPolygon.Text = "3";
             this.textBoxPolygon.TextChanged += new System.EventHandler(this.textBoxPolygon_TextChanged);
+            // 
+            // radioButtonMove
+            // 
+            this.radioButtonMove.AutoSize = true;
+            this.radioButtonMove.Location = new System.Drawing.Point(171, 88);
+            this.radioButtonMove.Name = "radioButtonMove";
+            this.radioButtonMove.Size = new System.Drawing.Size(52, 17);
+            this.radioButtonMove.TabIndex = 5;
+            this.radioButtonMove.TabStop = true;
+            this.radioButtonMove.Text = "Move";
+            this.radioButtonMove.UseVisualStyleBackColor = true;
             // 
             // radioButtonEraser
             // 
@@ -470,49 +516,16 @@
             this.pictureBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseMove);
             this.pictureBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseUp);
             // 
-            // radioButtonRotate
+            // radioButtonHyperbola
             // 
-            this.radioButtonRotate.AutoSize = true;
-            this.radioButtonRotate.Location = new System.Drawing.Point(171, 134);
-            this.radioButtonRotate.Name = "radioButtonRotate";
-            this.radioButtonRotate.Size = new System.Drawing.Size(57, 17);
-            this.radioButtonRotate.TabIndex = 7;
-            this.radioButtonRotate.TabStop = true;
-            this.radioButtonRotate.Text = "Rotate";
-            this.radioButtonRotate.UseVisualStyleBackColor = true;
-            // 
-            // radioButtonZoom
-            // 
-            this.radioButtonZoom.AutoSize = true;
-            this.radioButtonZoom.Location = new System.Drawing.Point(171, 111);
-            this.radioButtonZoom.Name = "radioButtonZoom";
-            this.radioButtonZoom.Size = new System.Drawing.Size(52, 17);
-            this.radioButtonZoom.TabIndex = 6;
-            this.radioButtonZoom.TabStop = true;
-            this.radioButtonZoom.Text = "Zoom";
-            this.radioButtonZoom.UseVisualStyleBackColor = true;
-            // 
-            // radioButtonMove
-            // 
-            this.radioButtonMove.AutoSize = true;
-            this.radioButtonMove.Location = new System.Drawing.Point(171, 88);
-            this.radioButtonMove.Name = "radioButtonMove";
-            this.radioButtonMove.Size = new System.Drawing.Size(52, 17);
-            this.radioButtonMove.TabIndex = 5;
-            this.radioButtonMove.TabStop = true;
-            this.radioButtonMove.Text = "Move";
-            this.radioButtonMove.UseVisualStyleBackColor = true;
-            // 
-            // radioButtonParabola
-            // 
-            this.radioButtonParabola.AutoSize = true;
-            this.radioButtonParabola.Location = new System.Drawing.Point(171, 19);
-            this.radioButtonParabola.Name = "radioButtonParabola";
-            this.radioButtonParabola.Size = new System.Drawing.Size(67, 17);
-            this.radioButtonParabola.TabIndex = 12;
-            this.radioButtonParabola.TabStop = true;
-            this.radioButtonParabola.Text = "Parabola";
-            this.radioButtonParabola.UseVisualStyleBackColor = true;
+            this.radioButtonHyperbola.AutoSize = true;
+            this.radioButtonHyperbola.Location = new System.Drawing.Point(171, 42);
+            this.radioButtonHyperbola.Name = "radioButtonHyperbola";
+            this.radioButtonHyperbola.Size = new System.Drawing.Size(73, 17);
+            this.radioButtonHyperbola.TabIndex = 13;
+            this.radioButtonHyperbola.TabStop = true;
+            this.radioButtonHyperbola.Text = "Hyperbola";
+            this.radioButtonHyperbola.UseVisualStyleBackColor = true;
             // 
             // MainForm
             // 
@@ -585,6 +598,7 @@
         private System.Windows.Forms.RadioButton radioButtonZoom;
         private System.Windows.Forms.RadioButton radioButtonMove;
         private System.Windows.Forms.RadioButton radioButtonParabola;
+        private System.Windows.Forms.RadioButton radioButtonHyperbola;
     }
 }
 
