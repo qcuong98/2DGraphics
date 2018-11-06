@@ -249,6 +249,7 @@ namespace Graphics2D
             Bitmap bm = new Bitmap(PB_WIDTH, PB_HEIGHT);
             using (Graphics gr = Graphics.FromImage(bm))
             {
+                gr.SmoothingMode = SmoothingMode.AntiAlias;
                 gr.Clear(Color.White);
                 for (int i = 0; i < nLayer; ++i)
                 {
