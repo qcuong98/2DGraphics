@@ -10,7 +10,6 @@ namespace Graphics2D
 {
     class Hyperbola : Shape
     {
-        PointF origin;
         float a;
         float b;
 

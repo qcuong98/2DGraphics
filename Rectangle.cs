@@ -17,6 +17,9 @@ namespace Graphics2D
         {
             a = p1;
             b = p2;
+            float x = (a.X + b.X) / 2;
+            float y = (a.Y + b.Y) / 2;
+            origin = new PointF(x, y);
         }
 
         public override void AddTo(GraphicsPath myGraphicsPath)

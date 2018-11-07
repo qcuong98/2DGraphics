@@ -12,12 +12,15 @@ namespace Graphics2D
     class Parabola : Shape
     {
         float a, b, c;
+        PointF bound_1;
 
-        public Parabola(float p1, float p2, float p3)
+        public Parabola(float p1, float p2, float p3, PointF p4, PointF p5)
         {
             a = p1;
             b = p2;
             c = p3;
+            origin = p4;
+            bound_1 = p5;
         }
 
         private float F(float x) {
@@ -26,23 +29,13 @@ namespace Graphics2D
 
         public override void AddTo(GraphicsPath myGraphicsPath)
         {
-            int x;
+            PointF bound_2 = new PointF(2 * origin.X - bound_1.X, bound_1.Y);
 
-            x = 0;
-            while (F(x - 1) >= 0 && F(x - 1) < MainForm.PB_HEIGHT)
-                --x;
-            PointF p1 = new PointF(x, F(x));
+            PointF pc = new PointF((bound_1.X + bound_2.X) / 2, bound_1.Y + (2 * a * bound_1.X + b) * (bound_2.X - bound_1.X) / 2);
+            PointF c1 = new PointF(2F / 3 * pc.X + 1F / 3 * bound_1.X, 2F / 3 * pc.Y + 1F / 3 * bound_1.Y);
+            PointF c2 = new PointF(2F / 3 * pc.X + 1F / 3 * bound_2.X, 2F / 3 * pc.Y + 1F / 3 * bound_2.Y);
 
-            x = MainForm.PB_WIDTH - 1;
-            while (F(x + 1) >= 0 && F(x + 1) < MainForm.PB_HEIGHT)
-                ++x;
-            PointF p2 = new PointF(x, F(x));
-
-            PointF pc = new PointF((p1.X + p2.X) / 2, p1.Y + (2 * a * p1.X + b) * (p2.X - p1.X) / 2);
-            PointF c1 = new PointF(2F / 3 * pc.X + 1F / 3 * p1.X, 2F / 3 * pc.Y + 1F / 3 * p1.Y);
-            PointF c2 = new PointF(2F / 3 * pc.X + 1F / 3 * p2.X, 2F / 3 * pc.Y + 1F / 3 * p2.Y);
-
-            myGraphicsPath.AddBezier(p1, c1, c2, p2);
+            myGraphicsPath.AddBezier(bound_1, c1, c2, bound_2);
         }
     }
 }

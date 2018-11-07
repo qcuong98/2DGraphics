@@ -15,6 +15,15 @@ namespace Graphics2D
         public Polygon(PointF[] val)
         {
             p = val;
+            float x = 0, y = 0;
+            for (int i = 0; i < val.Length; ++i)
+            {
+                x += val[i].X;
+                y += val[i].Y;
+            }
+            x /= val.Length;
+            y /= val.Length;
+            origin = new PointF(x, y);
         }
 
         public override void AddTo(GraphicsPath myGraphicsPath)

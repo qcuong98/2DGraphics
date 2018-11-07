@@ -11,7 +11,6 @@ namespace Graphics2D
     class String : Shape
     {
         string myText;
-        Point origin;
 
         public String(Point p, string s)
         {

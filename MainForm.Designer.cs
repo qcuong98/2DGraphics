@@ -29,6 +29,12 @@
         private void InitializeComponent()
         {
             this.splitContainer = new System.Windows.Forms.SplitContainer();
+            this.groupBoxSelectObject = new System.Windows.Forms.GroupBox();
+            this.button1 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.buttonBringFront = new System.Windows.Forms.Button();
+            this.buttonSendBack = new System.Windows.Forms.Button();
+            this.buttonDelete = new System.Windows.Forms.Button();
             this.groupBoxFile = new System.Windows.Forms.GroupBox();
             this.buttonLoadFile = new System.Windows.Forms.Button();
             this.buttonSaveFile = new System.Windows.Forms.Button();
@@ -51,13 +57,12 @@
             this.groupBoxColor = new System.Windows.Forms.GroupBox();
             this.pictureBoxPenColor = new System.Windows.Forms.PictureBox();
             this.groupBoxObject = new System.Windows.Forms.GroupBox();
+            this.radioButtonSelect = new System.Windows.Forms.RadioButton();
+            this.radioButtonHyperbola = new System.Windows.Forms.RadioButton();
             this.radioButtonParabola = new System.Windows.Forms.RadioButton();
-            this.radioButtonRotate = new System.Windows.Forms.RadioButton();
             this.label2 = new System.Windows.Forms.Label();
-            this.radioButtonZoom = new System.Windows.Forms.RadioButton();
             this.textBoxPolygon = new System.Windows.Forms.TextBox();
             this.radioButtonMove = new System.Windows.Forms.RadioButton();
-            this.radioButtonEraser = new System.Windows.Forms.RadioButton();
             this.radioButtonPolygon = new System.Windows.Forms.RadioButton();
             this.radioButtonBezier = new System.Windows.Forms.RadioButton();
             this.radioButtonEllipse = new System.Windows.Forms.RadioButton();
@@ -67,11 +72,14 @@
             this.radioButtonCircle = new System.Windows.Forms.RadioButton();
             this.radioButtonLine = new System.Windows.Forms.RadioButton();
             this.pictureBox = new System.Windows.Forms.PictureBox();
-            this.radioButtonHyperbola = new System.Windows.Forms.RadioButton();
+            this.radioButtonEraser = new System.Windows.Forms.RadioButton();
+            this.radioButtonScale = new System.Windows.Forms.RadioButton();
+            this.radioButtonRotate = new System.Windows.Forms.RadioButton();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
             this.splitContainer.Panel1.SuspendLayout();
             this.splitContainer.Panel2.SuspendLayout();
             this.splitContainer.SuspendLayout();
+            this.groupBoxSelectObject.SuspendLayout();
             this.groupBoxFile.SuspendLayout();
             this.groupBoxTypeOfBrush.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxBrushColor)).BeginInit();
@@ -91,6 +99,7 @@
             // 
             // splitContainer.Panel1
             // 
+            this.splitContainer.Panel1.Controls.Add(this.groupBoxSelectObject);
             this.splitContainer.Panel1.Controls.Add(this.groupBoxFile);
             this.splitContainer.Panel1.Controls.Add(this.groupBoxTypeOfBrush);
             this.splitContainer.Panel1.Controls.Add(this.groupBoxPens);
@@ -103,6 +112,66 @@
             this.splitContainer.Size = new System.Drawing.Size(1216, 573);
             this.splitContainer.SplitterDistance = 314;
             this.splitContainer.TabIndex = 0;
+            // 
+            // groupBoxSelectObject
+            // 
+            this.groupBoxSelectObject.Controls.Add(this.button1);
+            this.groupBoxSelectObject.Controls.Add(this.button2);
+            this.groupBoxSelectObject.Controls.Add(this.buttonBringFront);
+            this.groupBoxSelectObject.Controls.Add(this.buttonSendBack);
+            this.groupBoxSelectObject.Controls.Add(this.buttonDelete);
+            this.groupBoxSelectObject.Location = new System.Drawing.Point(160, 202);
+            this.groupBoxSelectObject.Name = "groupBoxSelectObject";
+            this.groupBoxSelectObject.Size = new System.Drawing.Size(147, 138);
+            this.groupBoxSelectObject.TabIndex = 5;
+            this.groupBoxSelectObject.TabStop = false;
+            this.groupBoxSelectObject.Text = "Selection Object";
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(74, 90);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(67, 35);
+            this.button1.TabIndex = 7;
+            this.button1.Text = "Bring Forward";
+            this.button1.UseVisualStyleBackColor = true;
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(6, 90);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(67, 35);
+            this.button2.TabIndex = 6;
+            this.button2.Text = "Send Backward";
+            this.button2.UseVisualStyleBackColor = true;
+            // 
+            // buttonBringFront
+            // 
+            this.buttonBringFront.Location = new System.Drawing.Point(74, 49);
+            this.buttonBringFront.Name = "buttonBringFront";
+            this.buttonBringFront.Size = new System.Drawing.Size(67, 35);
+            this.buttonBringFront.TabIndex = 5;
+            this.buttonBringFront.Text = "Bring to Front";
+            this.buttonBringFront.UseVisualStyleBackColor = true;
+            // 
+            // buttonSendBack
+            // 
+            this.buttonSendBack.Location = new System.Drawing.Point(6, 49);
+            this.buttonSendBack.Name = "buttonSendBack";
+            this.buttonSendBack.Size = new System.Drawing.Size(67, 35);
+            this.buttonSendBack.TabIndex = 4;
+            this.buttonSendBack.Text = "Send to Back";
+            this.buttonSendBack.UseVisualStyleBackColor = true;
+            // 
+            // buttonDelete
+            // 
+            this.buttonDelete.Location = new System.Drawing.Point(7, 20);
+            this.buttonDelete.Name = "buttonDelete";
+            this.buttonDelete.Size = new System.Drawing.Size(134, 23);
+            this.buttonDelete.TabIndex = 0;
+            this.buttonDelete.Text = "Delete";
+            this.buttonDelete.UseVisualStyleBackColor = true;
+            this.buttonDelete.Click += new System.EventHandler(this.buttonDelete_Click);
             // 
             // groupBoxFile
             // 
@@ -328,14 +397,15 @@
             // 
             // groupBoxObject
             // 
+            this.groupBoxObject.Controls.Add(this.radioButtonRotate);
+            this.groupBoxObject.Controls.Add(this.radioButtonScale);
+            this.groupBoxObject.Controls.Add(this.radioButtonEraser);
+            this.groupBoxObject.Controls.Add(this.radioButtonSelect);
             this.groupBoxObject.Controls.Add(this.radioButtonHyperbola);
             this.groupBoxObject.Controls.Add(this.radioButtonParabola);
-            this.groupBoxObject.Controls.Add(this.radioButtonRotate);
             this.groupBoxObject.Controls.Add(this.label2);
-            this.groupBoxObject.Controls.Add(this.radioButtonZoom);
             this.groupBoxObject.Controls.Add(this.textBoxPolygon);
             this.groupBoxObject.Controls.Add(this.radioButtonMove);
-            this.groupBoxObject.Controls.Add(this.radioButtonEraser);
             this.groupBoxObject.Controls.Add(this.radioButtonPolygon);
             this.groupBoxObject.Controls.Add(this.radioButtonBezier);
             this.groupBoxObject.Controls.Add(this.radioButtonEllipse);
@@ -351,6 +421,28 @@
             this.groupBoxObject.TabStop = false;
             this.groupBoxObject.Text = "Object";
             // 
+            // radioButtonSelect
+            // 
+            this.radioButtonSelect.AutoSize = true;
+            this.radioButtonSelect.Location = new System.Drawing.Point(171, 66);
+            this.radioButtonSelect.Name = "radioButtonSelect";
+            this.radioButtonSelect.Size = new System.Drawing.Size(55, 17);
+            this.radioButtonSelect.TabIndex = 14;
+            this.radioButtonSelect.TabStop = true;
+            this.radioButtonSelect.Text = "Select";
+            this.radioButtonSelect.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonHyperbola
+            // 
+            this.radioButtonHyperbola.AutoSize = true;
+            this.radioButtonHyperbola.Location = new System.Drawing.Point(171, 42);
+            this.radioButtonHyperbola.Name = "radioButtonHyperbola";
+            this.radioButtonHyperbola.Size = new System.Drawing.Size(73, 17);
+            this.radioButtonHyperbola.TabIndex = 13;
+            this.radioButtonHyperbola.TabStop = true;
+            this.radioButtonHyperbola.Text = "Hyperbola";
+            this.radioButtonHyperbola.UseVisualStyleBackColor = true;
+            // 
             // radioButtonParabola
             // 
             this.radioButtonParabola.AutoSize = true;
@@ -362,17 +454,6 @@
             this.radioButtonParabola.Text = "Parabola";
             this.radioButtonParabola.UseVisualStyleBackColor = true;
             // 
-            // radioButtonRotate
-            // 
-            this.radioButtonRotate.AutoSize = true;
-            this.radioButtonRotate.Location = new System.Drawing.Point(171, 134);
-            this.radioButtonRotate.Name = "radioButtonRotate";
-            this.radioButtonRotate.Size = new System.Drawing.Size(57, 17);
-            this.radioButtonRotate.TabIndex = 7;
-            this.radioButtonRotate.TabStop = true;
-            this.radioButtonRotate.Text = "Rotate";
-            this.radioButtonRotate.UseVisualStyleBackColor = true;
-            // 
             // label2
             // 
             this.label2.AutoSize = true;
@@ -381,17 +462,6 @@
             this.label2.Size = new System.Drawing.Size(24, 13);
             this.label2.TabIndex = 11;
             this.label2.Text = "N =";
-            // 
-            // radioButtonZoom
-            // 
-            this.radioButtonZoom.AutoSize = true;
-            this.radioButtonZoom.Location = new System.Drawing.Point(171, 111);
-            this.radioButtonZoom.Name = "radioButtonZoom";
-            this.radioButtonZoom.Size = new System.Drawing.Size(52, 17);
-            this.radioButtonZoom.TabIndex = 6;
-            this.radioButtonZoom.TabStop = true;
-            this.radioButtonZoom.Text = "Zoom";
-            this.radioButtonZoom.UseVisualStyleBackColor = true;
             // 
             // textBoxPolygon
             // 
@@ -405,24 +475,13 @@
             // radioButtonMove
             // 
             this.radioButtonMove.AutoSize = true;
-            this.radioButtonMove.Location = new System.Drawing.Point(171, 88);
+            this.radioButtonMove.Location = new System.Drawing.Point(171, 89);
             this.radioButtonMove.Name = "radioButtonMove";
             this.radioButtonMove.Size = new System.Drawing.Size(52, 17);
-            this.radioButtonMove.TabIndex = 5;
+            this.radioButtonMove.TabIndex = 9;
             this.radioButtonMove.TabStop = true;
             this.radioButtonMove.Text = "Move";
             this.radioButtonMove.UseVisualStyleBackColor = true;
-            // 
-            // radioButtonEraser
-            // 
-            this.radioButtonEraser.AutoSize = true;
-            this.radioButtonEraser.Location = new System.Drawing.Point(171, 157);
-            this.radioButtonEraser.Name = "radioButtonEraser";
-            this.radioButtonEraser.Size = new System.Drawing.Size(55, 17);
-            this.radioButtonEraser.TabIndex = 9;
-            this.radioButtonEraser.TabStop = true;
-            this.radioButtonEraser.Text = "Eraser";
-            this.radioButtonEraser.UseVisualStyleBackColor = true;
             // 
             // radioButtonPolygon
             // 
@@ -516,16 +575,38 @@
             this.pictureBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseMove);
             this.pictureBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseUp);
             // 
-            // radioButtonHyperbola
+            // radioButtonEraser
             // 
-            this.radioButtonHyperbola.AutoSize = true;
-            this.radioButtonHyperbola.Location = new System.Drawing.Point(171, 42);
-            this.radioButtonHyperbola.Name = "radioButtonHyperbola";
-            this.radioButtonHyperbola.Size = new System.Drawing.Size(73, 17);
-            this.radioButtonHyperbola.TabIndex = 13;
-            this.radioButtonHyperbola.TabStop = true;
-            this.radioButtonHyperbola.Text = "Hyperbola";
-            this.radioButtonHyperbola.UseVisualStyleBackColor = true;
+            this.radioButtonEraser.AutoSize = true;
+            this.radioButtonEraser.Location = new System.Drawing.Point(171, 158);
+            this.radioButtonEraser.Name = "radioButtonEraser";
+            this.radioButtonEraser.Size = new System.Drawing.Size(55, 17);
+            this.radioButtonEraser.TabIndex = 15;
+            this.radioButtonEraser.TabStop = true;
+            this.radioButtonEraser.Text = "Eraser";
+            this.radioButtonEraser.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonScale
+            // 
+            this.radioButtonScale.AutoSize = true;
+            this.radioButtonScale.Location = new System.Drawing.Point(171, 112);
+            this.radioButtonScale.Name = "radioButtonScale";
+            this.radioButtonScale.Size = new System.Drawing.Size(52, 17);
+            this.radioButtonScale.TabIndex = 16;
+            this.radioButtonScale.TabStop = true;
+            this.radioButtonScale.Text = "Scale";
+            this.radioButtonScale.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonRotate
+            // 
+            this.radioButtonRotate.AutoSize = true;
+            this.radioButtonRotate.Location = new System.Drawing.Point(171, 135);
+            this.radioButtonRotate.Name = "radioButtonRotate";
+            this.radioButtonRotate.Size = new System.Drawing.Size(57, 17);
+            this.radioButtonRotate.TabIndex = 17;
+            this.radioButtonRotate.TabStop = true;
+            this.radioButtonRotate.Text = "Rotate";
+            this.radioButtonRotate.UseVisualStyleBackColor = true;
             // 
             // MainForm
             // 
@@ -542,6 +623,7 @@
             this.splitContainer.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).EndInit();
             this.splitContainer.ResumeLayout(false);
+            this.groupBoxSelectObject.ResumeLayout(false);
             this.groupBoxFile.ResumeLayout(false);
             this.groupBoxTypeOfBrush.ResumeLayout(false);
             this.groupBoxTypeOfBrush.PerformLayout();
@@ -590,15 +672,22 @@
         private System.Windows.Forms.RadioButton radioButtonBrushPattern2;
         private System.Windows.Forms.RadioButton radioButtonBrushTransparent;
         private System.Windows.Forms.RadioButton radioButtonBezier;
-        private System.Windows.Forms.RadioButton radioButtonEraser;
+        private System.Windows.Forms.RadioButton radioButtonMove;
         private System.Windows.Forms.RadioButton radioButtonPolygon;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox textBoxPolygon;
-        private System.Windows.Forms.RadioButton radioButtonRotate;
-        private System.Windows.Forms.RadioButton radioButtonZoom;
-        private System.Windows.Forms.RadioButton radioButtonMove;
         private System.Windows.Forms.RadioButton radioButtonParabola;
         private System.Windows.Forms.RadioButton radioButtonHyperbola;
+        private System.Windows.Forms.RadioButton radioButtonSelect;
+        private System.Windows.Forms.GroupBox groupBoxSelectObject;
+        private System.Windows.Forms.Button buttonDelete;
+        private System.Windows.Forms.Button buttonBringFront;
+        private System.Windows.Forms.Button buttonSendBack;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.RadioButton radioButtonRotate;
+        private System.Windows.Forms.RadioButton radioButtonScale;
+        private System.Windows.Forms.RadioButton radioButtonEraser;
     }
 }
 
