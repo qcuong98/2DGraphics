@@ -8,9 +8,11 @@ using System.Threading.Tasks;
 
 namespace Graphics2D
 {
-    class Polygon : Shape
+    public class Polygon : Shape
     {
         PointF[] p;
+
+        public Polygon() : base() { }
 
         public Polygon(PointF[] val)
         {

@@ -8,10 +8,12 @@ using System.Threading.Tasks;
 
 namespace Graphics2D
 {
-    class Line : Shape
+    public class Line : Shape
     {
         private PointF a;
         private PointF b;
+
+        public Line() : base() { }
 
         public Line(PointF p1, PointF p2)
         {

@@ -8,9 +8,11 @@ using System.Threading.Tasks;
 
 namespace Graphics2D
 {
-    class Bezier : Shape
+    public class Bezier : Shape
     {
         PointF a, b, c, d;
+
+        public Bezier() : base() { }
 
         public Bezier(PointF p1, PointF p2, PointF p3, PointF p4)
         {

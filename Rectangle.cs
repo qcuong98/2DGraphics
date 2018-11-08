@@ -8,10 +8,12 @@ using System.Threading.Tasks;
 
 namespace Graphics2D
 {
-    class Rectangle : Shape
+    public class Rectangle : Shape
     {
         PointF a;
         PointF b;
+
+        public Rectangle() : base() { }
 
         public Rectangle(PointF p1, PointF p2)
         {

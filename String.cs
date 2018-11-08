@@ -8,9 +8,11 @@ using System.Threading.Tasks;
 
 namespace Graphics2D
 {
-    class String : Shape
+    public class String : Shape
     {
         string myText;
+
+        public String() : base() { }
 
         public String(Point p, string s)
         {

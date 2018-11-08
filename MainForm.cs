@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml.Serialization;
 
 namespace Graphics2D
 {
@@ -23,11 +24,10 @@ namespace Graphics2D
         private const int POLYGON = 6;
         private const int STRING = 7;
         private const int PARABOLA = 8;
-        private const int HYPERBOLA = 9;
-        private const int SELECT = 10;
-        private const int MOVE = 11;
-        private const int SCALE = 12;
-        private const int ROTATE = 13;
+        private const int SELECT = 9;
+        private const int MOVE = 10;
+        private const int SCALE = 11;
+        private const int ROTATE = 12;
 
         public static int PB_WIDTH;
         public static int PB_HEIGHT;
@@ -80,8 +80,6 @@ namespace Graphics2D
                 return STRING;
             if (radioButtonParabola.Checked)
                 return PARABOLA;
-            if (radioButtonHyperbola.Checked)
-                return HYPERBOLA;
 
             if (radioButtonSelect.Checked)
                 return SELECT;
@@ -110,52 +108,47 @@ namespace Graphics2D
             }
         }
 
-        private Pen GetPen()
+        private void GetPen(ref Color c, ref float width, ref float[] dashPattern)
         {
-            Pen myPen = new Pen(pictureBoxPenColor.BackColor);
+            c = pictureBoxPenColor.BackColor;
 
             if (radioButtonSolid.Checked)
             {
                 float wid = CheckValidFloat(textBoxWidth.Text);
-                myPen.Width = (wid == -1 ? 1 : wid);
+                width = (wid == -1 ? 1 : wid);
             }
             else if (radioButtonDot.Checked)
-                myPen.DashPattern = new float[] { 1F, 5F };
+                dashPattern = new float[] { 1F, 5F };
             else if (radioButtonDash.Checked)
-                myPen.DashPattern = new float[] { 10F, 5F };
+                dashPattern = new float[] { 10F, 5F };
             else if (radioButtonDashDot.Checked)
-                myPen.DashPattern = new float[] { 10F, 5F, 1F, 5F };
+                dashPattern = new float[] { 10F, 5F, 1F, 5F };
             else if (radioButtonDashDotDot.Checked)
-                myPen.DashPattern = new float[] { 10F, 5F, 1F, 5F, 1F, 5F };
+                dashPattern = new float[] { 10F, 5F, 1F, 5F, 1F, 5F };
             else if (radioButtonNull.Checked)
-                myPen.Color = Color.Transparent;
-
-            return myPen;
+                c = Color.Transparent;
         }
 
-        private Brush GetBrush()
+        private int GetBrush(ref Color c, ref int idPattern)
         {
             if (radioButtonBrushTransparent.Checked)
             {
-                SolidBrush mySolidBrush = new SolidBrush(Color.Transparent);
-                return mySolidBrush;
+                c = Color.Transparent;
+                return 0;
             }
             if (radioButtonBrushColor.Checked)
             {
-                SolidBrush mySolidBrush = new SolidBrush(pictureBoxBrushColor.BackColor);
-                return mySolidBrush;
+                c = pictureBoxBrushColor.BackColor;
+                return 0;
             }
 
-            string dir = "";
             if (radioButtonBrushPattern1.Checked)
-                dir = @"C:\Users\qcuong98\Documents\Visual Studio 2013\Projects\ComputerGraphics\Graphics2D\pattern_1.bmp";
+                idPattern = 1;
             else if (radioButtonBrushPattern2.Checked)
-                dir = @"C:\Users\qcuong98\Documents\Visual Studio 2013\Projects\ComputerGraphics\Graphics2D\pattern_2.bmp";
+                idPattern = 2;
             else if (radioButtonBrushPattern3.Checked)
-                dir = @"C:\Users\qcuong98\Documents\Visual Studio 2013\Projects\ComputerGraphics\Graphics2D\pattern_3.bmp";
-            Bitmap myImage = (Bitmap)Image.FromFile(dir);
-            TextureBrush myTextureBrush = new TextureBrush(myImage);
-            return myTextureBrush;
+                idPattern = 3;
+            return 1;
         }
 
         private void pictureBox_MouseDown(object sender, MouseEventArgs e)
@@ -181,7 +174,7 @@ namespace Graphics2D
             int obj = GetObject();
             if (MouseDowned && NoOfControlPoints(obj) == 2)
             {
-                float tmpdx = 0, tmpdy = 0, tmpAngle = 0;
+                float tmpdx = 0, tmpdy = 0, tmpAngle = 0, tmppx = 0, tmppy = 0;
                 if (obj == MOVE)
                 {
                     tmpdx = myLayers[curLayer].dx;
@@ -189,6 +182,11 @@ namespace Graphics2D
                 }
                 else if (obj == ROTATE)
                     tmpAngle = myLayers[curLayer].angle;
+                else if (obj == SCALE)
+                {
+                    tmppx = myLayers[curLayer].px;
+                    tmppy = myLayers[curLayer].py;
+                }
 
                 Points[1] = new Point(e.X, e.Y);
                 Render();
@@ -199,6 +197,11 @@ namespace Graphics2D
                 }
                 else if (obj == ROTATE)
                     myLayers[curLayer].angle = tmpAngle;
+                else if (obj == SCALE)
+                {
+                    myLayers[curLayer].px = tmppx;
+                    myLayers[curLayer].py = tmppy;
+                } 
                 else
                     --nLayer;
             }
@@ -268,8 +271,6 @@ namespace Graphics2D
                     float p2 = A * Points[1].X * Points[1].X + B * Points[1].X + C;
                     AddGraphicsPath(new Parabola(A, B, C, Points[0], Points[1]));
                     break;
-                case HYPERBOLA:
-                    break;
                 case SELECT:
                     for (int i = nLayer - 1; i >= 0; --i) 
                     {
@@ -279,7 +280,7 @@ namespace Graphics2D
                             {
                                 PointF tmpPoint = new PointF(Points[0].X + x, Points[0].Y + y);
                                 if (myLayers[i].myGraphicsPath.IsVisible(tmpPoint) ||
-                                    myLayers[i].myGraphicsPath.IsOutlineVisible(tmpPoint, myLayers[i].myPen))
+                                    myLayers[i].myGraphicsPath.IsOutlineVisible(tmpPoint, myLayers[i].GetPen()))
                                 {
                                     ok = true;
                                     break;
@@ -302,7 +303,8 @@ namespace Graphics2D
                 case SCALE:
                     if (curLayer != -1)
                     {
-                        // myLayers[curLayer].myMatrix.Scale(Points[1].X - Points[0].X, Points[1].Y - Points[0].Y);
+                        myLayers[curLayer].px = (Points[1].X - Points[0].X) / SCALING_LEN;
+                        myLayers[curLayer].py = (Points[1].Y - Points[0].Y) / SCALING_LEN;
                     }
                     break; 
                 case ROTATE:
@@ -333,7 +335,15 @@ namespace Graphics2D
             myShape.AddTo(tmpGraphicsPath);
             ++nLayer;
             curLayer = nLayer - 1;
-            myLayers[nLayer - 1] = new Layer(myShape, tmpGraphicsPath, GetPen(), GetBrush());
+            Color c = new Color();
+            float wid = 0;
+            float[] dashPatern = new float[0];
+            GetPen(ref c, ref wid, ref dashPatern);
+            int idBrush;
+            Color cBrush = new Color();
+            int idPattern = 0;
+            idBrush = GetBrush(ref cBrush, ref idPattern);
+            myLayers[nLayer - 1] = new Layer(myShape, tmpGraphicsPath, c, wid, dashPatern, idBrush, cBrush, idPattern);
         }
 
         private void RefreshGraphics()
@@ -345,18 +355,25 @@ namespace Graphics2D
                 gr.Clear(Color.White);
                 for (int i = 0; i < nLayer; ++i)
                 {
-                    GraphicsPath transformGraphicsPath = (GraphicsPath)myLayers[i].myGraphicsPath.Clone();
                     Matrix transformMatrix = new Matrix();
-                    transformMatrix.Translate(myLayers[i].dx, myLayers[i].dy);
-                    transformMatrix.RotateAt(myLayers[i].angle, 
-                        new PointF(myLayers[i].myShape.origin.X + myLayers[i].dx, myLayers[i].myShape.origin.Y + myLayers[i].dy));
+                    /* translate */
+                    transformMatrix.Translate(myLayers[i].dx, myLayers[i].dy, MatrixOrder.Append);
+                    /* rotate */
+                    PointF newOrigin = new PointF(myLayers[i].myShape.origin.X + myLayers[i].dx, 
+                                                  myLayers[i].myShape.origin.Y + myLayers[i].dy);
+                    transformMatrix.RotateAt(myLayers[i].angle, newOrigin, MatrixOrder.Append);
+                    /* scale */
+                    transformMatrix.Translate(-newOrigin.X, -newOrigin.Y, MatrixOrder.Append);
+                    transformMatrix.Scale(myLayers[i].px, myLayers[i].py, MatrixOrder.Append);
+                    transformMatrix.Translate(newOrigin.X, newOrigin.Y, MatrixOrder.Append);
+
+                    GraphicsPath transformGraphicsPath = (GraphicsPath)myLayers[i].myGraphicsPath.Clone();
                     transformGraphicsPath.Transform(transformMatrix);
 
-                    gr.DrawPath(myLayers[i].myPen, transformGraphicsPath);
-                    gr.FillPath(myLayers[i].myBrush, transformGraphicsPath);
+                    gr.DrawPath(myLayers[i].GetPen(), transformGraphicsPath);
+                    gr.FillPath(myLayers[i].GetBrush(), transformGraphicsPath);
                     if (i == curLayer)
                     {
-                        // textBoxString.Text = myLayers[curLayer].angle.ToString();
                         Pen myPen = new Pen(Color.Black);
                         myPen.DashPattern = new float[] { 1F, 5F };
                         RectangleF myRectF = myLayers[i].myGraphicsPath.GetBounds(transformMatrix);
@@ -380,6 +397,12 @@ namespace Graphics2D
             if (mySaveFileDialog.ShowDialog() == DialogResult.OK)
             {
                 string fOutput = mySaveFileDialog.FileName;
+                using (var writer = new System.IO.StreamWriter(fOutput))
+                {
+                    var serializer = new XmlSerializer(myLayers[curLayer].GetType());
+                    serializer.Serialize(writer, myLayers[curLayer]);
+                    writer.Flush();
+                }
             }
         }
 
@@ -469,6 +492,56 @@ namespace Graphics2D
                     myLayers[i - 1] = myLayers[i];
                 --nLayer;
                 curLayer = nLayer - 1;
+                RefreshGraphics();
+            }
+        }
+
+        private void buttonSendBack_Click(object sender, EventArgs e)
+        {
+            if (nLayer > 0 && curLayer != -1)
+            {
+                Layer tmpLayer = myLayers[curLayer];
+                for (int i = curLayer - 1; i >= 0; --i)
+                    myLayers[i + 1] = myLayers[i];
+                myLayers[0] = tmpLayer;
+                curLayer = 0;
+                RefreshGraphics();
+            }
+        }
+
+        private void buttonBringFront_Click(object sender, EventArgs e)
+        {
+            if (nLayer > 0 && curLayer != -1)
+            {
+                Layer tmpLayer = myLayers[curLayer];
+                for (int i = curLayer + 1; i < nLayer; ++i)
+                    myLayers[i - 1] = myLayers[i];
+                myLayers[nLayer - 1] = tmpLayer;
+                curLayer = nLayer - 1;
+                RefreshGraphics();
+            }
+        }
+
+        private void buttonSendBackward_Click(object sender, EventArgs e)
+        {
+            if (nLayer > 0 && curLayer != -1 && curLayer > 0)
+            {
+                Layer tmp = myLayers[curLayer];
+                myLayers[curLayer] = myLayers[curLayer - 1];
+                myLayers[curLayer - 1] = tmp;
+                --curLayer;
+                RefreshGraphics();
+            }
+        }
+
+        private void buttonBrindForward_Click(object sender, EventArgs e)
+        {
+            if (nLayer > 0 && curLayer != -1 && curLayer < nLayer - 1)
+            {
+                Layer tmp = myLayers[curLayer];
+                myLayers[curLayer] = myLayers[curLayer + 1];
+                myLayers[curLayer + 1] = tmp;
+                ++curLayer;
                 RefreshGraphics();
             }
         }

@@ -8,11 +8,13 @@ using System.Threading.Tasks;
 
 namespace Graphics2D
 {
-    class Ellipse : Shape
+    public class Ellipse : Shape
     {
         PointF a;
         float width;
         float height;
+
+        public Ellipse() : base() { }
 
         public Ellipse(PointF p1, float p2, float p3)
         {

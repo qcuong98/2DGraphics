@@ -30,8 +30,8 @@
         {
             this.splitContainer = new System.Windows.Forms.SplitContainer();
             this.groupBoxSelectObject = new System.Windows.Forms.GroupBox();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.buttonBrindForward = new System.Windows.Forms.Button();
+            this.buttonSendBackward = new System.Windows.Forms.Button();
             this.buttonBringFront = new System.Windows.Forms.Button();
             this.buttonSendBack = new System.Windows.Forms.Button();
             this.buttonDelete = new System.Windows.Forms.Button();
@@ -57,8 +57,9 @@
             this.groupBoxColor = new System.Windows.Forms.GroupBox();
             this.pictureBoxPenColor = new System.Windows.Forms.PictureBox();
             this.groupBoxObject = new System.Windows.Forms.GroupBox();
+            this.radioButtonRotate = new System.Windows.Forms.RadioButton();
+            this.radioButtonScale = new System.Windows.Forms.RadioButton();
             this.radioButtonSelect = new System.Windows.Forms.RadioButton();
-            this.radioButtonHyperbola = new System.Windows.Forms.RadioButton();
             this.radioButtonParabola = new System.Windows.Forms.RadioButton();
             this.label2 = new System.Windows.Forms.Label();
             this.textBoxPolygon = new System.Windows.Forms.TextBox();
@@ -72,9 +73,6 @@
             this.radioButtonCircle = new System.Windows.Forms.RadioButton();
             this.radioButtonLine = new System.Windows.Forms.RadioButton();
             this.pictureBox = new System.Windows.Forms.PictureBox();
-            this.radioButtonEraser = new System.Windows.Forms.RadioButton();
-            this.radioButtonScale = new System.Windows.Forms.RadioButton();
-            this.radioButtonRotate = new System.Windows.Forms.RadioButton();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
             this.splitContainer.Panel1.SuspendLayout();
             this.splitContainer.Panel2.SuspendLayout();
@@ -115,8 +113,8 @@
             // 
             // groupBoxSelectObject
             // 
-            this.groupBoxSelectObject.Controls.Add(this.button1);
-            this.groupBoxSelectObject.Controls.Add(this.button2);
+            this.groupBoxSelectObject.Controls.Add(this.buttonBrindForward);
+            this.groupBoxSelectObject.Controls.Add(this.buttonSendBackward);
             this.groupBoxSelectObject.Controls.Add(this.buttonBringFront);
             this.groupBoxSelectObject.Controls.Add(this.buttonSendBack);
             this.groupBoxSelectObject.Controls.Add(this.buttonDelete);
@@ -127,23 +125,25 @@
             this.groupBoxSelectObject.TabStop = false;
             this.groupBoxSelectObject.Text = "Selection Object";
             // 
-            // button1
+            // buttonBrindForward
             // 
-            this.button1.Location = new System.Drawing.Point(74, 90);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(67, 35);
-            this.button1.TabIndex = 7;
-            this.button1.Text = "Bring Forward";
-            this.button1.UseVisualStyleBackColor = true;
+            this.buttonBrindForward.Location = new System.Drawing.Point(74, 90);
+            this.buttonBrindForward.Name = "buttonBrindForward";
+            this.buttonBrindForward.Size = new System.Drawing.Size(67, 35);
+            this.buttonBrindForward.TabIndex = 7;
+            this.buttonBrindForward.Text = "Bring Forward";
+            this.buttonBrindForward.UseVisualStyleBackColor = true;
+            this.buttonBrindForward.Click += new System.EventHandler(this.buttonBrindForward_Click);
             // 
-            // button2
+            // buttonSendBackward
             // 
-            this.button2.Location = new System.Drawing.Point(6, 90);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(67, 35);
-            this.button2.TabIndex = 6;
-            this.button2.Text = "Send Backward";
-            this.button2.UseVisualStyleBackColor = true;
+            this.buttonSendBackward.Location = new System.Drawing.Point(6, 90);
+            this.buttonSendBackward.Name = "buttonSendBackward";
+            this.buttonSendBackward.Size = new System.Drawing.Size(67, 35);
+            this.buttonSendBackward.TabIndex = 6;
+            this.buttonSendBackward.Text = "Send Backward";
+            this.buttonSendBackward.UseVisualStyleBackColor = true;
+            this.buttonSendBackward.Click += new System.EventHandler(this.buttonSendBackward_Click);
             // 
             // buttonBringFront
             // 
@@ -153,6 +153,7 @@
             this.buttonBringFront.TabIndex = 5;
             this.buttonBringFront.Text = "Bring to Front";
             this.buttonBringFront.UseVisualStyleBackColor = true;
+            this.buttonBringFront.Click += new System.EventHandler(this.buttonBringFront_Click);
             // 
             // buttonSendBack
             // 
@@ -162,6 +163,7 @@
             this.buttonSendBack.TabIndex = 4;
             this.buttonSendBack.Text = "Send to Back";
             this.buttonSendBack.UseVisualStyleBackColor = true;
+            this.buttonSendBack.Click += new System.EventHandler(this.buttonSendBack_Click);
             // 
             // buttonDelete
             // 
@@ -399,9 +401,7 @@
             // 
             this.groupBoxObject.Controls.Add(this.radioButtonRotate);
             this.groupBoxObject.Controls.Add(this.radioButtonScale);
-            this.groupBoxObject.Controls.Add(this.radioButtonEraser);
             this.groupBoxObject.Controls.Add(this.radioButtonSelect);
-            this.groupBoxObject.Controls.Add(this.radioButtonHyperbola);
             this.groupBoxObject.Controls.Add(this.radioButtonParabola);
             this.groupBoxObject.Controls.Add(this.label2);
             this.groupBoxObject.Controls.Add(this.textBoxPolygon);
@@ -421,6 +421,28 @@
             this.groupBoxObject.TabStop = false;
             this.groupBoxObject.Text = "Object";
             // 
+            // radioButtonRotate
+            // 
+            this.radioButtonRotate.AutoSize = true;
+            this.radioButtonRotate.Location = new System.Drawing.Point(171, 135);
+            this.radioButtonRotate.Name = "radioButtonRotate";
+            this.radioButtonRotate.Size = new System.Drawing.Size(57, 17);
+            this.radioButtonRotate.TabIndex = 17;
+            this.radioButtonRotate.TabStop = true;
+            this.radioButtonRotate.Text = "Rotate";
+            this.radioButtonRotate.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonScale
+            // 
+            this.radioButtonScale.AutoSize = true;
+            this.radioButtonScale.Location = new System.Drawing.Point(171, 112);
+            this.radioButtonScale.Name = "radioButtonScale";
+            this.radioButtonScale.Size = new System.Drawing.Size(52, 17);
+            this.radioButtonScale.TabIndex = 16;
+            this.radioButtonScale.TabStop = true;
+            this.radioButtonScale.Text = "Scale";
+            this.radioButtonScale.UseVisualStyleBackColor = true;
+            // 
             // radioButtonSelect
             // 
             this.radioButtonSelect.AutoSize = true;
@@ -431,17 +453,6 @@
             this.radioButtonSelect.TabStop = true;
             this.radioButtonSelect.Text = "Select";
             this.radioButtonSelect.UseVisualStyleBackColor = true;
-            // 
-            // radioButtonHyperbola
-            // 
-            this.radioButtonHyperbola.AutoSize = true;
-            this.radioButtonHyperbola.Location = new System.Drawing.Point(171, 42);
-            this.radioButtonHyperbola.Name = "radioButtonHyperbola";
-            this.radioButtonHyperbola.Size = new System.Drawing.Size(73, 17);
-            this.radioButtonHyperbola.TabIndex = 13;
-            this.radioButtonHyperbola.TabStop = true;
-            this.radioButtonHyperbola.Text = "Hyperbola";
-            this.radioButtonHyperbola.UseVisualStyleBackColor = true;
             // 
             // radioButtonParabola
             // 
@@ -575,39 +586,6 @@
             this.pictureBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseMove);
             this.pictureBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseUp);
             // 
-            // radioButtonEraser
-            // 
-            this.radioButtonEraser.AutoSize = true;
-            this.radioButtonEraser.Location = new System.Drawing.Point(171, 158);
-            this.radioButtonEraser.Name = "radioButtonEraser";
-            this.radioButtonEraser.Size = new System.Drawing.Size(55, 17);
-            this.radioButtonEraser.TabIndex = 15;
-            this.radioButtonEraser.TabStop = true;
-            this.radioButtonEraser.Text = "Eraser";
-            this.radioButtonEraser.UseVisualStyleBackColor = true;
-            // 
-            // radioButtonScale
-            // 
-            this.radioButtonScale.AutoSize = true;
-            this.radioButtonScale.Location = new System.Drawing.Point(171, 112);
-            this.radioButtonScale.Name = "radioButtonScale";
-            this.radioButtonScale.Size = new System.Drawing.Size(52, 17);
-            this.radioButtonScale.TabIndex = 16;
-            this.radioButtonScale.TabStop = true;
-            this.radioButtonScale.Text = "Scale";
-            this.radioButtonScale.UseVisualStyleBackColor = true;
-            // 
-            // radioButtonRotate
-            // 
-            this.radioButtonRotate.AutoSize = true;
-            this.radioButtonRotate.Location = new System.Drawing.Point(171, 135);
-            this.radioButtonRotate.Name = "radioButtonRotate";
-            this.radioButtonRotate.Size = new System.Drawing.Size(57, 17);
-            this.radioButtonRotate.TabIndex = 17;
-            this.radioButtonRotate.TabStop = true;
-            this.radioButtonRotate.Text = "Rotate";
-            this.radioButtonRotate.UseVisualStyleBackColor = true;
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -677,17 +655,15 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox textBoxPolygon;
         private System.Windows.Forms.RadioButton radioButtonParabola;
-        private System.Windows.Forms.RadioButton radioButtonHyperbola;
         private System.Windows.Forms.RadioButton radioButtonSelect;
         private System.Windows.Forms.GroupBox groupBoxSelectObject;
         private System.Windows.Forms.Button buttonDelete;
         private System.Windows.Forms.Button buttonBringFront;
         private System.Windows.Forms.Button buttonSendBack;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button buttonBrindForward;
+        private System.Windows.Forms.Button buttonSendBackward;
         private System.Windows.Forms.RadioButton radioButtonRotate;
         private System.Windows.Forms.RadioButton radioButtonScale;
-        private System.Windows.Forms.RadioButton radioButtonEraser;
     }
 }
 

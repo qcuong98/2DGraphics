@@ -9,10 +9,12 @@ using System.Windows.Forms;
 
 namespace Graphics2D
 {
-    class Parabola : Shape
+    public class Parabola : Shape
     {
         float a, b, c;
         PointF bound_1;
+
+        public Parabola() : base() { }
 
         public Parabola(float p1, float p2, float p3, PointF p4, PointF p5)
         {
