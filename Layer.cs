@@ -14,7 +14,9 @@ namespace Graphics2D
         public GraphicsPath myGraphicsPath;
         public Pen myPen;
         public Brush myBrush;
-        public Matrix myMatrix;
+        public float dx;
+        public float dy;
+        public float angle;
 
         public Layer(Shape p1, GraphicsPath p2, Pen p3, Brush p4)
         {
@@ -22,7 +24,9 @@ namespace Graphics2D
             myGraphicsPath = p2;
             myPen = p3;
             myBrush = p4;
-            myMatrix = new Matrix();
+            angle = 0;
+            dx = 0;
+            dy = 0;
         }
     }
 }

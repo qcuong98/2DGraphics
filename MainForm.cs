@@ -181,15 +181,24 @@ namespace Graphics2D
             int obj = GetObject();
             if (MouseDowned && NoOfControlPoints(obj) == 2)
             {
-                Matrix tmpMatrix = new Matrix();
-                if (obj == MOVE || obj == SCALE || obj == ROTATE)
-                    tmpMatrix = myLayers[curLayer].myMatrix.Clone();
+                float tmpdx = 0, tmpdy = 0, tmpAngle = 0;
+                if (obj == MOVE)
+                {
+                    tmpdx = myLayers[curLayer].dx;
+                    tmpdy = myLayers[curLayer].dy;
+                }
+                else if (obj == ROTATE)
+                    tmpAngle = myLayers[curLayer].angle;
 
                 Points[1] = new Point(e.X, e.Y);
                 Render();
 
-                if (obj == MOVE || obj == SCALE || obj == ROTATE)
-                    myLayers[curLayer].myMatrix = tmpMatrix.Clone();
+                if (obj == MOVE) {
+                    myLayers[curLayer].dx = tmpdx;
+                    myLayers[curLayer].dy = tmpdy;
+                }
+                else if (obj == ROTATE)
+                    myLayers[curLayer].angle = tmpAngle;
                 else
                     --nLayer;
             }
@@ -286,15 +295,14 @@ namespace Graphics2D
                 case MOVE:
                     if (curLayer != -1)
                     {
-                        myLayers[curLayer].myMatrix.Translate(Points[1].X - Points[0].X, Points[1].Y - Points[0].Y);
-                        myLayers[curLayer].myShape.origin.X += Points[1].X - Points[0].X;
-                        myLayers[curLayer].myShape.origin.Y += Points[1].Y - Points[0].Y;
+                        myLayers[curLayer].dx += Points[1].X - Points[0].X;
+                        myLayers[curLayer].dy += Points[1].Y - Points[0].Y;
                     }
                     break;
                 case SCALE:
                     if (curLayer != -1)
                     {
-                        myLayers[curLayer].myMatrix.Scale(Points[1].X - Points[0].X, Points[1].Y - Points[0].Y);
+                        // myLayers[curLayer].myMatrix.Scale(Points[1].X - Points[0].X, Points[1].Y - Points[0].Y);
                     }
                     break; 
                 case ROTATE:
@@ -304,11 +312,14 @@ namespace Graphics2D
                         float va_y = Points[0].Y - myLayers[curLayer].myShape.origin.Y;
                         float vb_x = Points[1].X - myLayers[curLayer].myShape.origin.X;
                         float vb_y = Points[1].Y - myLayers[curLayer].myShape.origin.Y;
-                        // va_x = 10; va_y = 0;
-                        // vb_x = 0; vb_y = 15;
-                        float angle = 180F / (float)Math.Acos(-1) * (float)Math.Acos((va_x * vb_x + va_y * vb_y) /
-                            (float)Math.Sqrt((sqr(va_x) + sqr(va_y)) * (sqr(va_x) + sqr(va_y))));
-                        myLayers[curLayer].myMatrix.RotateAt(angle, myLayers[curLayer].myShape.origin);
+
+                        float new_angle = (float)Math.Acos((va_x * vb_x + va_y * vb_y) /
+                            (float)Math.Sqrt((sqr(va_x) + sqr(va_y)) * (sqr(vb_x) + sqr(vb_y))));
+                        myLayers[curLayer].angle += 180F / (float)Math.Acos(-1) * new_angle;
+                        if (myLayers[curLayer].angle >= 360F)
+                            myLayers[curLayer].angle -= 360F;
+                        if (myLayers[curLayer].angle < 0F)
+                            myLayers[curLayer].angle += 360F;
                     }
                     break;
             }
@@ -335,14 +346,20 @@ namespace Graphics2D
                 for (int i = 0; i < nLayer; ++i)
                 {
                     GraphicsPath transformGraphicsPath = (GraphicsPath)myLayers[i].myGraphicsPath.Clone();
-                    transformGraphicsPath.Transform(myLayers[i].myMatrix);
+                    Matrix transformMatrix = new Matrix();
+                    transformMatrix.Translate(myLayers[i].dx, myLayers[i].dy);
+                    transformMatrix.RotateAt(myLayers[i].angle, 
+                        new PointF(myLayers[i].myShape.origin.X + myLayers[i].dx, myLayers[i].myShape.origin.Y + myLayers[i].dy));
+                    transformGraphicsPath.Transform(transformMatrix);
+
                     gr.DrawPath(myLayers[i].myPen, transformGraphicsPath);
                     gr.FillPath(myLayers[i].myBrush, transformGraphicsPath);
                     if (i == curLayer)
                     {
+                        // textBoxString.Text = myLayers[curLayer].angle.ToString();
                         Pen myPen = new Pen(Color.Black);
                         myPen.DashPattern = new float[] { 1F, 5F };
-                        RectangleF myRectF = myLayers[i].myGraphicsPath.GetBounds(myLayers[i].myMatrix);
+                        RectangleF myRectF = myLayers[i].myGraphicsPath.GetBounds(transformMatrix);
                         gr.DrawRectangle(myPen, myRectF.X, myRectF.Y, myRectF.Width, myRectF.Height);
                     }
                 }
