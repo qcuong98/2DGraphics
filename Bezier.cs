@@ -10,7 +10,7 @@ namespace Graphics2D
 {
     public class Bezier : Shape
     {
-        PointF a, b, c, d;
+        public PointF a, b, c, d;
 
         public Bezier() : base() { }
 

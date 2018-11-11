@@ -10,8 +10,8 @@ namespace Graphics2D
 {
     public class Rectangle : Shape
     {
-        PointF a;
-        PointF b;
+        public PointF a;
+        public PointF b;
 
         public Rectangle() : base() { }
 

@@ -10,8 +10,8 @@ namespace Graphics2D
 {
     public class Line : Shape
     {
-        private PointF a;
-        private PointF b;
+        public PointF a;
+        public PointF b;
 
         public Line() : base() { }
 

@@ -21,10 +21,7 @@ namespace Graphics2D
     {
         public PointF origin;
 
-        public Shape()
-        {
-
-        }
+        public Shape() { }
         abstract public void AddTo(GraphicsPath myGraphicsPath);
     }
 }

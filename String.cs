@@ -10,7 +10,7 @@ namespace Graphics2D
 {
     public class String : Shape
     {
-        string myText;
+        public string myText;
 
         public String() : base() { }
 

@@ -10,7 +10,7 @@ namespace Graphics2D
 {
     public class Polygon : Shape
     {
-        PointF[] p;
+        public PointF[] p;
 
         public Polygon() : base() { }
 

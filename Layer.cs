@@ -11,14 +11,13 @@ namespace Graphics2D
     public class Layer
     {
         public Shape myShape;
-        public GraphicsPath myGraphicsPath;
 
-        public Color PenColor;
+        public int PenColor;
         public float PenWidth;
         public float[] PenDashPattern;
 
         public int typeBrush;
-        public Color colorBrush;
+        public int colorBrush;
         public int idPattern;
 
         public float dx;
@@ -30,9 +29,6 @@ namespace Graphics2D
         private Layer()
         {
             myShape = null;
-            myGraphicsPath = null;
-            // myPen = null;
-            // myBrush = null;
             angle = 0;
             dx = 0; dy = 0;
             px = 1; py = 1;
@@ -41,7 +37,7 @@ namespace Graphics2D
 
         public Pen GetPen()
         {
-            Pen myPen = new Pen(PenColor);
+            Pen myPen = new Pen(Color.FromArgb(PenColor));
             myPen.Width = PenWidth;
             if (PenDashPattern.Length > 0)
                 myPen.DashPattern = PenDashPattern;
@@ -52,7 +48,7 @@ namespace Graphics2D
         {
             if (typeBrush == 0)
             {
-                Brush myBrush = new SolidBrush(colorBrush);
+                Brush myBrush = new SolidBrush(Color.FromArgb(colorBrush));
                 return myBrush;
             }
 
@@ -68,17 +64,16 @@ namespace Graphics2D
             return myTextureBrush;
         }
 
-        public Layer(Shape p1, GraphicsPath p2, Color c, float wid, float[] dashPattern, int tb, Color c1, int idPat)
+        public Layer(Shape p1, Color c, float wid, float[] dashPattern, int tb, Color c1, int idPat)
         {
             myShape = p1;
-            myGraphicsPath = p2;
 
-            PenColor = c;
+            PenColor = c.ToArgb();
             PenWidth = wid;
             PenDashPattern = dashPattern;
 
             typeBrush = tb;
-            colorBrush = c1;
+            colorBrush = c1.ToArgb();
             idPattern = idPat;
 
             angle = 0;

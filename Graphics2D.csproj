@@ -59,6 +59,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Rectangle.cs" />
+    <Compile Include="SerializationObject.cs" />
     <Compile Include="Shape.cs" />
     <Compile Include="String.cs" />
     <EmbeddedResource Include="MainForm.resx">

@@ -10,9 +10,9 @@ namespace Graphics2D
 {
     public class Ellipse : Shape
     {
-        PointF a;
-        float width;
-        float height;
+        public PointF a;
+        public float width;
+        public float height;
 
         public Ellipse() : base() { }
 

@@ -14,7 +14,7 @@ namespace Graphics2D
 {
     public partial class MainForm : Form
     {
-        private const int MAX_LAYER = 1000;
+        public const int MAX_LAYER = 1000;
 
         private const int LINE = 1;
         private const int CIRCLE = 2;
@@ -36,6 +36,7 @@ namespace Graphics2D
         int nLayer;
         private Layer[] myLayers;
         int curLayer;
+        private GraphicsPath[] myGraphicsPath;
 
         int nPoint;
         private PointF[] Points;
@@ -49,6 +50,7 @@ namespace Graphics2D
             nLayer = 0;
             myLayers = new Layer[MAX_LAYER];
             curLayer = -1;
+            myGraphicsPath = new GraphicsPath[MAX_LAYER];
 
             nPoint = 0;
             Points = new PointF[100];
@@ -156,6 +158,7 @@ namespace Graphics2D
             pictureBox.CreateGraphics().DrawEllipse(new Pen(Color.Black), e.X - 1, e.Y - 1, 3, 3);
             if (NoOfControlPoints(GetObject()) == 2)
             {
+                nPoint = 1;
                 Points[0] = new Point(e.X, e.Y);
             }
             else
@@ -172,8 +175,9 @@ namespace Graphics2D
         private void pictureBox_MouseMove(object sender, MouseEventArgs e)
         {
             int obj = GetObject();
-            if (MouseDowned && NoOfControlPoints(obj) == 2)
+            if (MouseDowned && NoOfControlPoints(obj) == 2 && nPoint == 1)
             {
+                textBoxString.Text = nPoint.ToString();
                 float tmpdx = 0, tmpdy = 0, tmpAngle = 0, tmppx = 0, tmppy = 0;
                 if (obj == MOVE)
                 {
@@ -204,13 +208,15 @@ namespace Graphics2D
                 } 
                 else
                     --nLayer;
+                nPoint = 1;
             }
         }
 
         private void pictureBox_MouseUp(object sender, MouseEventArgs e)
         {
-            if (NoOfControlPoints(GetObject()) == 2)
+            if (NoOfControlPoints(GetObject()) == 2 && nPoint == 1)
             {
+                nPoint = 2;
                 Points[1] = new Point(e.X, e.Y);
                 Render();
             }
@@ -279,8 +285,8 @@ namespace Graphics2D
                             for (int y = -5; y <= 5; ++y)
                             {
                                 PointF tmpPoint = new PointF(Points[0].X + x, Points[0].Y + y);
-                                if (myLayers[i].myGraphicsPath.IsVisible(tmpPoint) ||
-                                    myLayers[i].myGraphicsPath.IsOutlineVisible(tmpPoint, myLayers[i].GetPen()))
+                                if (myGraphicsPath[i].IsVisible(tmpPoint) ||
+                                    myGraphicsPath[i].IsOutlineVisible(tmpPoint, myLayers[i].GetPen()))
                                 {
                                     ok = true;
                                     break;
@@ -331,8 +337,6 @@ namespace Graphics2D
 
         private void AddGraphicsPath(Shape myShape)
         {
-            GraphicsPath tmpGraphicsPath = new GraphicsPath();
-            myShape.AddTo(tmpGraphicsPath);
             ++nLayer;
             curLayer = nLayer - 1;
             Color c = new Color();
@@ -343,7 +347,7 @@ namespace Graphics2D
             Color cBrush = new Color();
             int idPattern = 0;
             idBrush = GetBrush(ref cBrush, ref idPattern);
-            myLayers[nLayer - 1] = new Layer(myShape, tmpGraphicsPath, c, wid, dashPatern, idBrush, cBrush, idPattern);
+            myLayers[nLayer - 1] = new Layer(myShape, c, wid, dashPatern, idBrush, cBrush, idPattern);
         }
 
         private void RefreshGraphics()
@@ -367,16 +371,17 @@ namespace Graphics2D
                     transformMatrix.Scale(myLayers[i].px, myLayers[i].py, MatrixOrder.Append);
                     transformMatrix.Translate(newOrigin.X, newOrigin.Y, MatrixOrder.Append);
 
-                    GraphicsPath transformGraphicsPath = (GraphicsPath)myLayers[i].myGraphicsPath.Clone();
-                    transformGraphicsPath.Transform(transformMatrix);
+                    myGraphicsPath[i] = new GraphicsPath();
+                    myLayers[i].myShape.AddTo(myGraphicsPath[i]);
+                    myGraphicsPath[i].Transform(transformMatrix);
 
-                    gr.DrawPath(myLayers[i].GetPen(), transformGraphicsPath);
-                    gr.FillPath(myLayers[i].GetBrush(), transformGraphicsPath);
+                    gr.DrawPath(myLayers[i].GetPen(), myGraphicsPath[i]);
+                    gr.FillPath(myLayers[i].GetBrush(), myGraphicsPath[i]);
                     if (i == curLayer)
                     {
                         Pen myPen = new Pen(Color.Black);
                         myPen.DashPattern = new float[] { 1F, 5F };
-                        RectangleF myRectF = myLayers[i].myGraphicsPath.GetBounds(transformMatrix);
+                        RectangleF myRectF = myGraphicsPath[i].GetBounds();
                         gr.DrawRectangle(myPen, myRectF.X, myRectF.Y, myRectF.Width, myRectF.Height);
                     }
                 }
@@ -399,8 +404,10 @@ namespace Graphics2D
                 string fOutput = mySaveFileDialog.FileName;
                 using (var writer = new System.IO.StreamWriter(fOutput))
                 {
-                    var serializer = new XmlSerializer(myLayers[curLayer].GetType());
-                    serializer.Serialize(writer, myLayers[curLayer]);
+                    SerializationObject serializationObject = new SerializationObject(nLayer, myLayers, curLayer);
+
+                    var serializer = new XmlSerializer(serializationObject.GetType());
+                    serializer.Serialize(writer, serializationObject);
                     writer.Flush();
                 }
             }
@@ -419,6 +426,21 @@ namespace Graphics2D
             if (myOpenFileDialog.ShowDialog() == DialogResult.OK)
             {
                 string fInput = myOpenFileDialog.FileName;
+                using (var reader = new System.IO.StreamReader(fInput))
+                {
+                    SerializationObject serializationObject = new SerializationObject(nLayer, myLayers, curLayer);
+
+                    var serializer = new XmlSerializer(serializationObject.GetType());
+                    serializationObject = (SerializationObject)serializer.Deserialize(reader);
+                    reader.Close();
+
+                    nLayer = serializationObject.nLayer;
+                    for (int i = 0; i < nLayer; ++i)
+                        myLayers[i] = serializationObject.myLayers[i];
+                    curLayer = serializationObject.curLayer;
+                    RefreshGraphics();
+                    nPoint = 0;
+                }
             }
         }
 

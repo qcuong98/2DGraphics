@@ -11,8 +11,8 @@ namespace Graphics2D
 {
     public class Parabola : Shape
     {
-        float a, b, c;
-        PointF bound_1;
+        public float a, b, c;
+        public PointF bound_1;
 
         public Parabola() : base() { }
 
