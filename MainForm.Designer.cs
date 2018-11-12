@@ -73,6 +73,7 @@
             this.radioButtonCircle = new System.Windows.Forms.RadioButton();
             this.radioButtonLine = new System.Windows.Forms.RadioButton();
             this.pictureBox = new System.Windows.Forms.PictureBox();
+            this.buttonExportImage = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
             this.splitContainer.Panel1.SuspendLayout();
             this.splitContainer.Panel2.SuspendLayout();
@@ -177,11 +178,12 @@
             // 
             // groupBoxFile
             // 
+            this.groupBoxFile.Controls.Add(this.buttonExportImage);
             this.groupBoxFile.Controls.Add(this.buttonLoadFile);
             this.groupBoxFile.Controls.Add(this.buttonSaveFile);
-            this.groupBoxFile.Location = new System.Drawing.Point(160, 487);
+            this.groupBoxFile.Location = new System.Drawing.Point(160, 454);
             this.groupBoxFile.Name = "groupBoxFile";
-            this.groupBoxFile.Size = new System.Drawing.Size(147, 80);
+            this.groupBoxFile.Size = new System.Drawing.Size(147, 109);
             this.groupBoxFile.TabIndex = 4;
             this.groupBoxFile.TabStop = false;
             this.groupBoxFile.Text = "File";
@@ -586,6 +588,16 @@
             this.pictureBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseMove);
             this.pictureBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseUp);
             // 
+            // buttonExportImage
+            // 
+            this.buttonExportImage.Location = new System.Drawing.Point(6, 77);
+            this.buttonExportImage.Name = "buttonExportImage";
+            this.buttonExportImage.Size = new System.Drawing.Size(135, 23);
+            this.buttonExportImage.TabIndex = 1;
+            this.buttonExportImage.Text = "Export to image ...";
+            this.buttonExportImage.UseVisualStyleBackColor = true;
+            this.buttonExportImage.Click += new System.EventHandler(this.buttonExportImage_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -664,6 +676,7 @@
         private System.Windows.Forms.Button buttonSendBackward;
         private System.Windows.Forms.RadioButton radioButtonRotate;
         private System.Windows.Forms.RadioButton radioButtonScale;
+        private System.Windows.Forms.Button buttonExportImage;
     }
 }
 

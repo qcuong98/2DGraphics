@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -350,7 +351,7 @@ namespace Graphics2D
             myLayers[nLayer - 1] = new Layer(myShape, c, wid, dashPatern, idBrush, cBrush, idPattern);
         }
 
-        private void RefreshGraphics()
+        Bitmap drawToBMP(Boolean getBound)
         {
             Bitmap bm = new Bitmap(PB_WIDTH, PB_HEIGHT);
             using (Graphics gr = Graphics.FromImage(bm))
@@ -363,7 +364,7 @@ namespace Graphics2D
                     /* translate */
                     transformMatrix.Translate(myLayers[i].dx, myLayers[i].dy, MatrixOrder.Append);
                     /* rotate */
-                    PointF newOrigin = new PointF(myLayers[i].myShape.origin.X + myLayers[i].dx, 
+                    PointF newOrigin = new PointF(myLayers[i].myShape.origin.X + myLayers[i].dx,
                                                   myLayers[i].myShape.origin.Y + myLayers[i].dy);
                     transformMatrix.RotateAt(myLayers[i].angle, newOrigin, MatrixOrder.Append);
                     /* scale */
@@ -377,7 +378,7 @@ namespace Graphics2D
 
                     gr.DrawPath(myLayers[i].GetPen(), myGraphicsPath[i]);
                     gr.FillPath(myLayers[i].GetBrush(), myGraphicsPath[i]);
-                    if (i == curLayer)
+                    if (i == curLayer && getBound)
                     {
                         Pen myPen = new Pen(Color.Black);
                         myPen.DashPattern = new float[] { 1F, 5F };
@@ -386,62 +387,14 @@ namespace Graphics2D
                     }
                 }
             }
-            pictureBox.Image = bm;
+            return bm;
+        }
+
+        private void RefreshGraphics()
+        {
+
+            pictureBox.Image = drawToBMP(true);
             pictureBox.Refresh();
-        }
-
-        private void buttonSaveFile_Click(object sender, EventArgs e)
-        {
-            SaveFileDialog mySaveFileDialog = new SaveFileDialog();
-            mySaveFileDialog.Title = "Save File of Objects";    
-            mySaveFileDialog.CheckPathExists = true;  
-            mySaveFileDialog.DefaultExt = "shp";  
-            mySaveFileDialog.Filter = "Shape files (*.shp)|*.shp|All files (*.*)|*.*";  
-            mySaveFileDialog.FilterIndex = 1;  
-            mySaveFileDialog.RestoreDirectory = true;
-            if (mySaveFileDialog.ShowDialog() == DialogResult.OK)
-            {
-                string fOutput = mySaveFileDialog.FileName;
-                using (var writer = new System.IO.StreamWriter(fOutput))
-                {
-                    SerializationObject serializationObject = new SerializationObject(nLayer, myLayers, curLayer);
-
-                    var serializer = new XmlSerializer(serializationObject.GetType());
-                    serializer.Serialize(writer, serializationObject);
-                    writer.Flush();
-                }
-            }
-        }
-
-        private void buttonLoadFile_Click(object sender, EventArgs e)
-        {
-            OpenFileDialog myOpenFileDialog = new OpenFileDialog();
-            myOpenFileDialog.Title = "Load File of Objects";
-            myOpenFileDialog.CheckFileExists = true;
-            myOpenFileDialog.CheckPathExists = true;
-            myOpenFileDialog.DefaultExt = "shp";
-            myOpenFileDialog.Filter = "Shape files (*.shp)|*.shp|All files (*.*)|*.*";
-            myOpenFileDialog.FilterIndex = 1;
-            myOpenFileDialog.RestoreDirectory = true;
-            if (myOpenFileDialog.ShowDialog() == DialogResult.OK)
-            {
-                string fInput = myOpenFileDialog.FileName;
-                using (var reader = new System.IO.StreamReader(fInput))
-                {
-                    SerializationObject serializationObject = new SerializationObject(nLayer, myLayers, curLayer);
-
-                    var serializer = new XmlSerializer(serializationObject.GetType());
-                    serializationObject = (SerializationObject)serializer.Deserialize(reader);
-                    reader.Close();
-
-                    nLayer = serializationObject.nLayer;
-                    for (int i = 0; i < nLayer; ++i)
-                        myLayers[i] = serializationObject.myLayers[i];
-                    curLayer = serializationObject.curLayer;
-                    RefreshGraphics();
-                    nPoint = 0;
-                }
-            }
         }
 
         private void pictureBoxBrushColor_Click(object sender, EventArgs e)
@@ -565,6 +518,97 @@ namespace Graphics2D
                 myLayers[curLayer + 1] = tmp;
                 ++curLayer;
                 RefreshGraphics();
+            }
+        }
+
+        private void buttonSaveFile_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog mySaveFileDialog = new SaveFileDialog();
+            mySaveFileDialog.Title = "Save File of Objects";
+            mySaveFileDialog.CheckPathExists = true;
+            mySaveFileDialog.DefaultExt = "shp";
+            mySaveFileDialog.Filter = "Shape files (*.shp)|*.shp|All files (*.*)|*.*";
+            mySaveFileDialog.FilterIndex = 1;
+            mySaveFileDialog.RestoreDirectory = true;
+            if (mySaveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                string fOutput = mySaveFileDialog.FileName;
+                using (var writer = new System.IO.StreamWriter(fOutput))
+                {
+                    SerializationObject serializationObject = new SerializationObject(nLayer, myLayers, curLayer);
+
+                    var serializer = new XmlSerializer(serializationObject.GetType());
+                    serializer.Serialize(writer, serializationObject);
+                    writer.Flush();
+                }
+            }
+        }
+
+        private void buttonLoadFile_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog myOpenFileDialog = new OpenFileDialog();
+            myOpenFileDialog.Title = "Load File of Objects";
+            myOpenFileDialog.CheckFileExists = true;
+            myOpenFileDialog.CheckPathExists = true;
+            myOpenFileDialog.DefaultExt = "shp";
+            myOpenFileDialog.Filter = "Shape files (*.shp)|*.shp";
+            myOpenFileDialog.FilterIndex = 1;
+            myOpenFileDialog.RestoreDirectory = true;
+            if (myOpenFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                string fInput = myOpenFileDialog.FileName;
+                using (var reader = new System.IO.StreamReader(fInput))
+                {
+                    SerializationObject serializationObject = new SerializationObject(nLayer, myLayers, curLayer);
+
+                    var serializer = new XmlSerializer(serializationObject.GetType());
+                    serializationObject = (SerializationObject)serializer.Deserialize(reader);
+                    reader.Close();
+
+                    nLayer = serializationObject.nLayer;
+                    for (int i = 0; i < nLayer; ++i)
+                        myLayers[i] = serializationObject.myLayers[i];
+                    curLayer = serializationObject.curLayer;
+                    RefreshGraphics();
+                    nPoint = 0;
+                }
+            }
+        }
+
+        private void buttonExportImage_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog mySaveFileDialog = new SaveFileDialog();
+            mySaveFileDialog.Title = "Export to image";
+            mySaveFileDialog.CheckPathExists = true;
+            mySaveFileDialog.DefaultExt = "bmp";
+            mySaveFileDialog.Filter = "Bitmap image file (*.bmp)|*.bmp|Joint Photographic Experts Group (*.jpeg)|*.jpeg|"+
+                                    "Portable Network Graphic (*.png)|*.png|Tagged Image File Format (*.tif)|*.tif|"+
+                                    "Graphics Interchange Format (*.gif)|*.gif";
+            mySaveFileDialog.FilterIndex = 1;
+            mySaveFileDialog.RestoreDirectory = true;
+            if (mySaveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                string fOutput = mySaveFileDialog.FileName;
+                Bitmap image = drawToBMP(false);
+
+                switch (mySaveFileDialog.FilterIndex)
+                {
+                    case 1:
+                        image.Save(fOutput, ImageFormat.Bmp);
+                        break;
+                    case 2:
+                        image.Save(fOutput, ImageFormat.Jpeg);
+                        break;
+                    case 3:
+                        image.Save(fOutput, ImageFormat.Png);
+                        break;
+                    case 4:
+                        image.Save(fOutput, ImageFormat.Tiff);
+                        break;
+                    case 5:
+                        image.Save(fOutput, ImageFormat.Gif);
+                        break;
+                }
             }
         }
     }
