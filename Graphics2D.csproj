@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="Bezier.cs" />
     <Compile Include="Ellipse.cs" />
+    <Compile Include="Hyperbola.cs" />
     <Compile Include="Layer.cs" />
     <Compile Include="Line.cs" />
     <Compile Include="MainForm.cs">

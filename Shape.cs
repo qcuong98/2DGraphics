@@ -16,6 +16,7 @@ namespace Graphics2D
     [XmlInclude(typeof(Polygon))]
     [XmlInclude(typeof(String))]
     [XmlInclude(typeof(Parabola))]
+    [XmlInclude(typeof(Hyperbola))]
     [Serializable]
     abstract public class Shape
     {

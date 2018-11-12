@@ -25,10 +25,12 @@ namespace Graphics2D
         private const int POLYGON = 6;
         private const int STRING = 7;
         private const int PARABOLA = 8;
-        private const int SELECT = 9;
-        private const int MOVE = 10;
-        private const int SCALE = 11;
-        private const int ROTATE = 12;
+        private const int HYPERBOLA = 9;
+
+        private const int SELECT = 10;
+        private const int MOVE = 11;
+        private const int SCALE = 12;
+        private const int ROTATE = 13;
 
         public static int PB_WIDTH;
         public static int PB_HEIGHT;
@@ -83,6 +85,8 @@ namespace Graphics2D
                 return STRING;
             if (radioButtonParabola.Checked)
                 return PARABOLA;
+            if (radioButtonHyperbola.Checked)
+                return HYPERBOLA;
 
             if (radioButtonSelect.Checked)
                 return SELECT;
@@ -277,6 +281,12 @@ namespace Graphics2D
                     float p1 = A * Points[0].X * Points[0].X + B * Points[0].X + C;
                     float p2 = A * Points[1].X * Points[1].X + B * Points[1].X + C;
                     AddGraphicsPath(new Parabola(A, B, C, Points[0], Points[1]));
+                    break;
+                case HYPERBOLA:
+                    float b2 = 10000F;
+                    float a2 = b2 * sqr(Points[1].X - Points[0].X) / (sqr(Points[1].Y - Points[0].Y) + b2);
+
+                    AddGraphicsPath(new Hyperbola(a2, b2, Points[0], Points[1]));
                     break;
                 case SELECT:
                     for (int i = nLayer - 1; i >= 0; --i) 
@@ -610,6 +620,13 @@ namespace Graphics2D
                         break;
                 }
             }
+        }
+
+        private void buttonReset_Click(object sender, EventArgs e)
+        {
+            nLayer = 0;
+            curLayer = -1;
+            RefreshGraphics();
         }
     }
 }

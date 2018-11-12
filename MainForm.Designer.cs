@@ -36,6 +36,7 @@
             this.buttonSendBack = new System.Windows.Forms.Button();
             this.buttonDelete = new System.Windows.Forms.Button();
             this.groupBoxFile = new System.Windows.Forms.GroupBox();
+            this.buttonExportImage = new System.Windows.Forms.Button();
             this.buttonLoadFile = new System.Windows.Forms.Button();
             this.buttonSaveFile = new System.Windows.Forms.Button();
             this.groupBoxTypeOfBrush = new System.Windows.Forms.GroupBox();
@@ -73,7 +74,8 @@
             this.radioButtonCircle = new System.Windows.Forms.RadioButton();
             this.radioButtonLine = new System.Windows.Forms.RadioButton();
             this.pictureBox = new System.Windows.Forms.PictureBox();
-            this.buttonExportImage = new System.Windows.Forms.Button();
+            this.buttonReset = new System.Windows.Forms.Button();
+            this.radioButtonHyperbola = new System.Windows.Forms.RadioButton();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
             this.splitContainer.Panel1.SuspendLayout();
             this.splitContainer.Panel2.SuspendLayout();
@@ -98,6 +100,7 @@
             // 
             // splitContainer.Panel1
             // 
+            this.splitContainer.Panel1.Controls.Add(this.buttonReset);
             this.splitContainer.Panel1.Controls.Add(this.groupBoxSelectObject);
             this.splitContainer.Panel1.Controls.Add(this.groupBoxFile);
             this.splitContainer.Panel1.Controls.Add(this.groupBoxTypeOfBrush);
@@ -187,6 +190,16 @@
             this.groupBoxFile.TabIndex = 4;
             this.groupBoxFile.TabStop = false;
             this.groupBoxFile.Text = "File";
+            // 
+            // buttonExportImage
+            // 
+            this.buttonExportImage.Location = new System.Drawing.Point(6, 77);
+            this.buttonExportImage.Name = "buttonExportImage";
+            this.buttonExportImage.Size = new System.Drawing.Size(135, 23);
+            this.buttonExportImage.TabIndex = 1;
+            this.buttonExportImage.Text = "Export to image ...";
+            this.buttonExportImage.UseVisualStyleBackColor = true;
+            this.buttonExportImage.Click += new System.EventHandler(this.buttonExportImage_Click);
             // 
             // buttonLoadFile
             // 
@@ -404,6 +417,7 @@
             this.groupBoxObject.Controls.Add(this.radioButtonRotate);
             this.groupBoxObject.Controls.Add(this.radioButtonScale);
             this.groupBoxObject.Controls.Add(this.radioButtonSelect);
+            this.groupBoxObject.Controls.Add(this.radioButtonHyperbola);
             this.groupBoxObject.Controls.Add(this.radioButtonParabola);
             this.groupBoxObject.Controls.Add(this.label2);
             this.groupBoxObject.Controls.Add(this.textBoxPolygon);
@@ -588,15 +602,26 @@
             this.pictureBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseMove);
             this.pictureBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseUp);
             // 
-            // buttonExportImage
+            // buttonReset
             // 
-            this.buttonExportImage.Location = new System.Drawing.Point(6, 77);
-            this.buttonExportImage.Name = "buttonExportImage";
-            this.buttonExportImage.Size = new System.Drawing.Size(135, 23);
-            this.buttonExportImage.TabIndex = 1;
-            this.buttonExportImage.Text = "Export to image ...";
-            this.buttonExportImage.UseVisualStyleBackColor = true;
-            this.buttonExportImage.Click += new System.EventHandler(this.buttonExportImage_Click);
+            this.buttonReset.Location = new System.Drawing.Point(167, 425);
+            this.buttonReset.Name = "buttonReset";
+            this.buttonReset.Size = new System.Drawing.Size(134, 23);
+            this.buttonReset.TabIndex = 6;
+            this.buttonReset.Text = "Reset";
+            this.buttonReset.UseVisualStyleBackColor = true;
+            this.buttonReset.Click += new System.EventHandler(this.buttonReset_Click);
+            // 
+            // radioButtonHyperbola
+            // 
+            this.radioButtonHyperbola.AutoSize = true;
+            this.radioButtonHyperbola.Location = new System.Drawing.Point(171, 42);
+            this.radioButtonHyperbola.Name = "radioButtonHyperbola";
+            this.radioButtonHyperbola.Size = new System.Drawing.Size(73, 17);
+            this.radioButtonHyperbola.TabIndex = 12;
+            this.radioButtonHyperbola.TabStop = true;
+            this.radioButtonHyperbola.Text = "Hyperbola";
+            this.radioButtonHyperbola.UseVisualStyleBackColor = true;
             // 
             // MainForm
             // 
@@ -677,6 +702,8 @@
         private System.Windows.Forms.RadioButton radioButtonRotate;
         private System.Windows.Forms.RadioButton radioButtonScale;
         private System.Windows.Forms.Button buttonExportImage;
+        private System.Windows.Forms.Button buttonReset;
+        private System.Windows.Forms.RadioButton radioButtonHyperbola;
     }
 }
 
