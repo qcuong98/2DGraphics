@@ -240,33 +240,33 @@ namespace Graphics2D
             switch (typeObject)
             {
                 case LINE:
-                    AddGraphicsPath(new Line(Points[0], Points[1]));
+                    AddLayer(new Line(Points[0], Points[1]));
                     break;
                 case CIRCLE:
                     float r = (float)Math.Sqrt(sqr(Points[1].X - Points[0].X) + sqr(Points[1].Y - Points[0].Y));
-                    AddGraphicsPath(new Ellipse(new PointF(Points[0].X - r, Points[0].Y - r), 2 * r, 2 * r));
+                    AddLayer(new Ellipse(new PointF(Points[0].X - r, Points[0].Y - r), 2 * r, 2 * r));
                     break;
                 case ELLIPSE:
                     a = new PointF(Math.Min(Points[0].X, Points[1].X), Math.Min(Points[0].Y, Points[1].Y));
                     float wid = Math.Abs(Points[1].X - Points[0].X), hgt = Math.Abs(Points[1].Y - Points[0].Y);
-                    AddGraphicsPath(new Ellipse(a, wid, hgt));
+                    AddLayer(new Ellipse(a, wid, hgt));
                     break;
                 case RECTANGLE:
                     a = new PointF(Math.Min(Points[0].X, Points[1].X), Math.Min(Points[0].Y, Points[1].Y));
                     b = new PointF(Math.Max(Points[0].X, Points[1].X), Math.Max(Points[0].Y, Points[1].Y));
-                    AddGraphicsPath(new Rectangle(a, b));
+                    AddLayer(new Rectangle(a, b));
                     break;
                 case BEZIER:
-                    AddGraphicsPath(new Bezier(Points[0], Points[1], Points[2], Points[3]));
+                    AddLayer(new Bezier(Points[0], Points[1], Points[2], Points[3]));
                     break;
                 case POLYGON:
                     PointF[] tmp = new PointF[nPoint];
                     for (int i = 0; i < nPoint; ++i)
                        tmp[i] = Points[i];
-                    AddGraphicsPath(new Polygon(tmp));
+                    AddLayer(new Polygon(tmp));
                     break;
                 case STRING:
-                    AddGraphicsPath(new String(new Point((int)Points[0].X, (int)Points[0].Y), textBoxString.Text));
+                    AddLayer(new String(new Point((int)Points[0].X, (int)Points[0].Y), textBoxString.Text));
                     break;
                 case PARABOLA:
                     if (Math.Abs(Points[1].X - Points[0].X) < 5)
@@ -280,13 +280,13 @@ namespace Graphics2D
 
                     float p1 = A * Points[0].X * Points[0].X + B * Points[0].X + C;
                     float p2 = A * Points[1].X * Points[1].X + B * Points[1].X + C;
-                    AddGraphicsPath(new Parabola(A, B, C, Points[0], Points[1]));
+                    AddLayer(new Parabola(A, B, C, Points[0], Points[1]));
                     break;
                 case HYPERBOLA:
                     float b2 = 10000F;
                     float a2 = b2 * sqr(Points[1].X - Points[0].X) / (sqr(Points[1].Y - Points[0].Y) + b2);
 
-                    AddGraphicsPath(new Hyperbola(a2, b2, Points[0], Points[1]));
+                    AddLayer(new Hyperbola(a2, b2, Points[0], Points[1]));
                     break;
                 case SELECT:
                     for (int i = nLayer - 1; i >= 0; --i) 
@@ -346,7 +346,7 @@ namespace Graphics2D
             nPoint = 0;
         }
 
-        private void AddGraphicsPath(Shape myShape)
+        private void AddLayer(Shape myShape)
         {
             ++nLayer;
             curLayer = nLayer - 1;
